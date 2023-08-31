@@ -34,6 +34,15 @@ const favPlaceSchema = new Schema({
     type: String,
     required: false,
   },
+  latitude: {
+    type: String,
+    required: false,
+  },
+  longitude: {
+    type: String,
+    required: false,
+  },
+
 });
 
 module.exports = mongoose.model("FavouritePlace", favPlaceSchema);

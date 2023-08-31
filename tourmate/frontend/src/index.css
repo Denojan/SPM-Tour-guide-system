@@ -21,3 +21,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.custom-image {
+  border-radius: 0px 0px 100px 100px; /* top-left, top-right, bottom-right, bottom-left */
+}

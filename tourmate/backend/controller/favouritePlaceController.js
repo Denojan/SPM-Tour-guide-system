@@ -30,6 +30,8 @@ const addFavPlace = async (req, res) => {
       contact: req.body.contact,
       image: req.body.image,
       description: req.body.description,
+      latitude:req.body.latitude,
+      longitude:req.body.longitude,
     });
 
     // Save the new place to the database
