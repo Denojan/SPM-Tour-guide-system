@@ -21,6 +21,24 @@ function DisplayFavPlace() {
     fetchFavoritePlaces();
   }, []);
 
+
+  async function addToPackage(favoritePlaces) {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/package/addPlaceToPackage",
+        {
+          userId: "user123", // You should provide the actual user ID here
+          selectedPlace: favoritePlaces,
+        }
+      );
+      console.log(response.data.message);
+    } catch (error) {
+      console.error("Error adding place to package:", error);
+    }
+  }
+
+   
+
 return (
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
     {favoritePlaces.map((place, index) => (
@@ -55,6 +73,13 @@ return (
             >
               Delete
             </button>
+
+            <button
+      onClick={() => addToPackage(place)}
+      className="px-4 py-2 text-sm bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-300"
+    >
+      Add To List
+    </button>
           </div>
         </div>
       </div>
