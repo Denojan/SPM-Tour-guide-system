@@ -26,6 +26,7 @@ function Map() {
   const [pathCoordinates, setPathCoordinates] = useState([]);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [directions, setDirections] = useState(null);
+  const [weather, setWeather] = useState(null);
 
   useEffect(() => {
     async function fetchFavoritePlaces() {
@@ -84,52 +85,75 @@ function Map() {
   }, [favoritePlaces]);
 
   const handleDirectionsClick = (place) => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const userLocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
 
-        const directionsService = new window.google.maps.DirectionsService();
+          const directionsService = new window.google.maps.DirectionsService();
 
-        // Specify the origin and destination
-        const origin = new window.google.maps.LatLng(
-          userLocation.lat,
-          userLocation.lng
-        );
-        const destination = new window.google.maps.LatLng(
-          place.latitude,
-          place.longitude
-        );
+          // Specify the origin and destination
+          const origin = new window.google.maps.LatLng(
+            userLocation.lat,
+            userLocation.lng
+          );
+          const destination = new window.google.maps.LatLng(
+            place.latitude,
+            place.longitude
+          );
 
-        // Calculate directions
-        directionsService.route(
-          {
-            origin: origin,
-            destination: destination,
-            travelMode: window.google.maps.TravelMode.DRIVING,
-          },
-          (result, status) => {
-            if (status === window.google.maps.DirectionsStatus.OK) {
-              setDirections(result);
-            } else {
-              console.error(`Error fetching directions: ${status}`);
+          // Calculate directions
+          directionsService.route(
+            {
+              origin: origin,
+              destination: destination,
+              travelMode: window.google.maps.TravelMode.DRIVING,
+            },
+            (result, status) => {
+              if (status === window.google.maps.DirectionsStatus.OK) {
+                setDirections(result);
+              } else {
+                console.error(`Error fetching directions: ${status}`);
+              }
             }
-          }
-        );
-      },
-      (error) => {
-        console.error("Error getting user location:", error);
-      }
-    );
-  } else {
-    console.error("Geolocation is not supported by this browser.");
-  }
-};
+          );
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  };
 
+  useEffect(() => {
+    // Update weather data when selectedPlace changes
+    if (selectedPlace) {
+      fetchWeather(selectedPlace.latitude, selectedPlace.longitude);
+    } else {
+      setWeather(null); // Clear weather data when no marker is selected
+    }
+  }, [selectedPlace]);
 
+  const fetchWeather = async (lat, lng) => {
+    try {
+      // Replace with your weather API key and API endpoint
+      const apiKey = "YOUR_WEATHER_API_KEY";
+      const response = await axios.get(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=630c69f94c458f628031272842978ea3&units=metric`
+      );
+
+      const weatherData = response.data;
+
+      setWeather(weatherData);
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+    }
+  };
   return (
     <LoadScript
       googleMapsApiKey="AIzaSyACdwaw1h6cATe6laoMWoayEniMemjgVkE"
@@ -169,7 +193,14 @@ function Map() {
               />
               <h2>{selectedPlace.placeName}</h2>
               <p>Visited Date: {selectedPlace.visitedDate}</p>
-              {/* Add more details here */}
+
+              {weather && (
+                <div>
+                  <h3>Weather Information</h3>
+                  <p>Temperature: {weather.main.temp}°C</p>
+                  <p>Weather Condition: {weather.weather[0].description}</p>
+                </div>
+              )}
             </div>
           </InfoWindow>
         )}
@@ -194,14 +225,6 @@ function Map() {
               },
             }}
           />
-        )}
-        {/* Add a button to get directions */}
-        {selectedPlace && (
-          <div>
-            <button onClick={() => handleDirectionsClick(selectedPlace)}>
-              Get Directions
-            </button>
-          </div>
         )}
       </GoogleMap>
     </LoadScript>
