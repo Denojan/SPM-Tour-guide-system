@@ -5,6 +5,7 @@ import {
   LoadScript,
   Polyline,
   InfoWindow,
+  DirectionsRenderer,
 } from "@react-google-maps/api";
 import axios from "axios";
 
@@ -12,6 +13,8 @@ const containerStyle = {
   width: "100%",
   height: "900px",
 };
+
+const libraries = ["geometry", "directions"];
 
 const center = {
   lat: 7.8731, // Default center for the map
@@ -22,6 +25,7 @@ function Map() {
   const [favoritePlaces, setFavoritePlaces] = useState([]);
   const [pathCoordinates, setPathCoordinates] = useState([]);
   const [selectedPlace, setSelectedPlace] = useState(null);
+  const [directions, setDirections] = useState(null);
 
   useEffect(() => {
     async function fetchFavoritePlaces() {
@@ -69,21 +73,68 @@ function Map() {
     return placesWithCoordinates;
   }
 
-  // Create an array of path coordinates for the polyline
- useEffect(() => {
-   // Update pathCoordinates when favoritePlaces are updated
-   setPathCoordinates(
-     favoritePlaces.map((place) => ({
-       lat: place.latitude,
-       lng: place.longitude,
-     }))
-   );
- }, [favoritePlaces]);
+  useEffect(() => {
+    // Update pathCoordinates when favoritePlaces are updated
+    setPathCoordinates(
+      favoritePlaces.map((place) => ({
+        lat: place.latitude,
+        lng: place.longitude,
+      }))
+    );
+  }, [favoritePlaces]);
 
-  console.log(pathCoordinates)
+  const handleDirectionsClick = (place) => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const userLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+
+        const directionsService = new window.google.maps.DirectionsService();
+
+        // Specify the origin and destination
+        const origin = new window.google.maps.LatLng(
+          userLocation.lat,
+          userLocation.lng
+        );
+        const destination = new window.google.maps.LatLng(
+          place.latitude,
+          place.longitude
+        );
+
+        // Calculate directions
+        directionsService.route(
+          {
+            origin: origin,
+            destination: destination,
+            travelMode: window.google.maps.TravelMode.DRIVING,
+          },
+          (result, status) => {
+            if (status === window.google.maps.DirectionsStatus.OK) {
+              setDirections(result);
+            } else {
+              console.error(`Error fetching directions: ${status}`);
+            }
+          }
+        );
+      },
+      (error) => {
+        console.error("Error getting user location:", error);
+      }
+    );
+  } else {
+    console.error("Geolocation is not supported by this browser.");
+  }
+};
+
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyACdwaw1h6cATe6laoMWoayEniMemjgVkE">
+    <LoadScript
+      googleMapsApiKey="AIzaSyACdwaw1h6cATe6laoMWoayEniMemjgVkE"
+      libraries={libraries}
+    >
       <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={7}>
         {favoritePlaces.map((place, index) => (
           <Marker
@@ -103,6 +154,14 @@ function Map() {
           >
             {/* InfoWindow content */}
             <div>
+              {selectedPlace && (
+                <div>
+                  <button onClick={() => handleDirectionsClick(selectedPlace)}>
+                    Get Directions
+                  </button>
+                </div>
+              )}
+
               <img
                 src={selectedPlace.image}
                 alt={selectedPlace.placeName}
@@ -124,6 +183,25 @@ function Map() {
               strokeWeight: 2,
             }}
           />
+        )}
+        {/* Display directions on the map */}
+        {directions && (
+          <DirectionsRenderer
+            directions={directions}
+            options={{
+              polylineOptions: {
+                strokeColor: "#007bff",
+              },
+            }}
+          />
+        )}
+        {/* Add a button to get directions */}
+        {selectedPlace && (
+          <div>
+            <button onClick={() => handleDirectionsClick(selectedPlace)}>
+              Get Directions
+            </button>
+          </div>
         )}
       </GoogleMap>
     </LoadScript>
