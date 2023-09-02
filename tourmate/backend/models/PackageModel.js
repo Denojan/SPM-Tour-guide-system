@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const PackageSchema =new Schema({
+
+   packageName:{
+    type:String
+   },
     userId: {
         type: String,
         required: true,

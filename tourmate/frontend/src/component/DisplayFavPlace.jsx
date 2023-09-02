@@ -25,7 +25,7 @@ function DisplayFavPlace() {
   async function addToPackage(favoritePlaces) {
     try {
       const response = await axios.post(
-        "http://localhost:8080/package/addPlaceToPackage",
+        "http://localhost:8080/wishlist/addPlaceToPackage",
         {
           userId: "user123", // You should provide the actual user ID here
           selectedPlace: favoritePlaces,

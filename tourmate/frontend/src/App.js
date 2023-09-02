@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AddFavPlace from "./component/AddFavPlace";
 import DisplayFavPlace from "./component/DisplayFavPlace";
+import DisplayPackageDetails from "./component/DisplayPackageDetails";
+
 
 function App() {
   return (
@@ -8,6 +10,8 @@ function App() {
       <Routes>
         <Route path="/addfavplace" element={<AddFavPlace />} />
         <Route path="/displayfav" element={<DisplayFavPlace />} />
+        <Route path="/displayPackage" element={<DisplayPackageDetails />} />
+     
       </Routes>
     </Router>
   );

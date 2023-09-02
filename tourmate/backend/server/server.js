@@ -4,7 +4,7 @@ require("../db/loadEnvironment");
 const connectDB = require("../db/conn.js");
 const favouritePlaceRoute = require("../routes/favouritePlaceRoutes");
 const packageRoute = require("../routes/packageRoutes"); 
-
+const wishListRoutes = require("../routes/wishListRoute"); 
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -15,6 +15,7 @@ app.use(express.json());
 console.log("server");
 app.use("/favplace", favouritePlaceRoute);
 app.use("/package", packageRoute);
+app.use("/wishlist",wishListRoutes);
 
 // start the Express server
 app.listen(PORT, () => {
