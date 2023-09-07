@@ -92,25 +92,51 @@ const deletePlace = async (req, res) => {
   };
 
   //update wishlist
+  // const updateWishList = async (req, res) => {
+  //   const { id, note } = req.body;
+  
+  //   try {
+  //     console.log(id);
+  //     const wishlist = await WishList.findOne({ _id: id });
+  
+  //     if (!wishlist) {
+  //       return res.status(404).json({ error: 'Wish list item not found' });
+  //     }
+  
+  //     wishlist.note = note;
+  
+  //     await wishlist.save();
+  
+  //     res.json({ message: 'Wish list item updated', updatedList: wishlist });
+  //   } catch (error) {
+  //     console.error('An error occurred:', error);
+  //     res.status(500).json({ error: 'Failed to update wish list item', errorMessage: error.message });
+  //   }
+  // };
+
+
   const updateWishList = async (req, res) => {
-    const { id, note } = req.body;
+    const { placeName, note } = req.body;
   
     try {
-      console.log(id);
-      const wishlist = await WishList.findOne({ _id: id });
+      console.log(placeName);
+      // Find all wish list items with the same placeName
+      const wishlists = await WishList.find({ placeName });
   
-      if (!wishlist) {
-        return res.status(404).json({ error: 'Wish list item not found' });
+      if (!wishlists || wishlists.length === 0) {
+        return res.status(404).json({ error: 'Wish list items not found for the given placeName' });
       }
   
-      wishlist.note = note;
+      // Update the note attribute for all matching wish list items
+      wishlists.forEach(async (wishlist) => {
+        wishlist.note = note;
+        await wishlist.save();
+      });
   
-      await wishlist.save();
-  
-      res.json({ message: 'Wish list item updated', updatedList: wishlist });
+      res.json({ message: 'Wish list items updated', updatedList: wishlists });
     } catch (error) {
       console.error('An error occurred:', error);
-      res.status(500).json({ error: 'Failed to update wish list item', errorMessage: error.message });
+      res.status(500).json({ error: 'Failed to update wish list items', errorMessage: error.message });
     }
   };
   

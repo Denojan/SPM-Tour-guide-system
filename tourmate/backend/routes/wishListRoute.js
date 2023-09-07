@@ -12,7 +12,7 @@ const {
 
 router.post('/create', createWishList);
 router.get('/getWishlist/:userId', readWishListByUserId);
-router.put('/updateWishList/:id', updateWishList);
+router.put('/updateWishList/:placeName', updateWishList);
 router.delete('/deletePlace/:id',deletePlace);
 router.delete('/deleteWishList/:placeName',deleteWishList);
 

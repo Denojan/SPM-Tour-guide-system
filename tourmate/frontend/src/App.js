@@ -4,6 +4,7 @@ import DisplayFavPlace from "./component/DisplayFavPlace";
 import SearchPlaces from "./component/SearchPlaces";
 import WishList from "./component/WishList";
 import NavBar from "./component/NavBar";
+import UpdateNote from "./component/UpdateNote";
 
 
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/searchPlaces" element={<SearchPlaces />} />
         <Route path="/wishList" element={<WishList />} />
         <Route path="/navbar"  element={<NavBar/>}/>
+        <Route path="/updateNote" element={<UpdateNote/>}/>
        
      
       </Routes>

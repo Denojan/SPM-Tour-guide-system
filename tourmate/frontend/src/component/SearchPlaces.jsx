@@ -12,39 +12,69 @@ function Main() {
   const [recommendations, setRecommendations] = useState([]);
   const [dev, setdev] = useState([]);
 
-  async function addList(place) {
-   
-    const newPlace = {
-      placeName2: place.name,
-      userId: "user2", 
-      placeName: location, 
-      description: place.vicinity, 
-      lat: place.geometry.location.lat,
-      long: place.geometry.location.lng,
-      note: "", 
-    };
-  
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/wishlist/create",
-        newPlace,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      );
-      console.log("List added:", response.data);
-  
-      // Update the recommendations state to include the new place
-    //   setRecommendations((prevRecommendations) => [...prevRecommendations, newPlace]);
-  
-    } catch (error) {
-      console.error("Error adding list:", error);
-    }
+  const addedLocations = []; 
+
+async function addList(place) {
+  const newPlace = {
+    placeName2: place.name,
+    userId: "user2",
+    placeName: location,
+    description: place.vicinity,
+    lat: place.geometry.location.lat,
+    long: place.geometry.location.lng,
+    note: "",
+  };
+
+  // Check if the location already exists in the addedLocations array
+  const locationExists = addedLocations.some(
+    (existingLocation) =>
+      existingLocation.lat === newPlace.lat &&
+      existingLocation.long === newPlace.long
+  );
+
+  if (locationExists) {
+    const message = "Place with the same location is already added.";
+    alert(message); // Show an alert with the message
+    return message; // Return a message indicating the result.
   }
+
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/wishlist/create",
+      newPlace,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    );
+
+    console.log("List added:", response.data);
+
+    // Update the recommendations state to include the new place
+    // setRecommendations((prevRecommendations) => [...prevRecommendations, newPlace]);
+
+    // Add the new location to the addedLocations array
+    addedLocations.push({
+      lat: newPlace.lat,
+      long: newPlace.long,
+    });
+
+    const message = "Place added successfully.";
+    alert(message); 
+    return message; 
+  } catch (error) {
+    console.error("Error adding list:", error);
+    const errorMessage = "Error adding place.";
+    alert(errorMessage); 
+    return errorMessage;
+  }
+}
+
+
+  
   
 
   const rundev = () => {
