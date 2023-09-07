@@ -112,13 +112,17 @@ function Wishlist() {
                             + Add New Place
                           </button>
                         </Link>
+                        
 
+                        <Link to="/updateNote">
                         <button type="button"
                      
                         >
                           <CgNotes style={{ fontSize: '2.3rem' }} title="Note" />
                           {/* Note */}
                         </button>
+
+                        </Link>
                       </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
