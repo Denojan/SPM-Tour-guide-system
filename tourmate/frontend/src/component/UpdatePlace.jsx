@@ -1,99 +1,84 @@
-import React, { useEffect, useState } from "react";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 import slide from "../assert/back1.jpg";
 import slide1 from "../assert/addback.avif";
-import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function AddFavPlace() {
-  const [placeName, setPlaceName] = useState("");
-  const [userId, setUserId] = useState("");
-  const [category, setCategory] = useState("");
-  const [visitedDate, setVisitedDate] = useState("");
-  const [location, setLocation] = useState("");
-  const [contact, setContact] = useState("");
-  const [image, setImage] = useState("");
-  const [description, setDescription] = useState("");
-  const [currentLocation, setCurrentLocation] = useState("");
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
+function UpdatePlace() {
 
+    const param = useParams();
+    const id = param.id;
+    
+    const [place, setPlace] = useState({});
+    const [newPlaceName, setPlaceName] = useState("");
+    const [newUserId, setUserId] = useState("");
+    const [newCategory, setCategory] = useState("");
+    const [newVisitedDate, setVisitedDate] = useState("");
+    const [newLocation, setLocation] = useState("");
+    const [newContact, setContact] = useState("");
+    const [newImage, setImage] = useState("");
+    const [newDescription, setDescription] = useState("");
+    const [currentLocation, setCurrentLocation] = useState("");
+    const [latitude, setLatitude] = useState("");
+    const [longitude, setLongitude] = useState("");
 
-
-  const initializeGeolocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setCurrentLocation(`${latitude},${longitude}`);
-          fetchLocationName(latitude, longitude);
-        },
-        (error) => {
-          console.error("Error fetching current location:", error);
-        }
-      );
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
-  };
-
-  const fetchLocationName = async (latitude, longitude) => {
-
-    setLatitude(latitude);
-    setLongitude(longitude);
+     async function getPlace() {
     try {
-      const response = await axios.get(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyACdwaw1h6cATe6laoMWoayEniMemjgVkE`
-      );
+ 
+      const res = await axios.get(`http://localhost:8080/favplace/getanyplace/${id}`);
+      const onePlace = res.data;
 
-      const formattedAddress = response.data.results[0].formatted_address;
-      setCurrentLocation(formattedAddress);
-    } catch (error) {
-      console.error("Error fetching location name:", error);
+      setPlace(onePlace.place[0]);
+      console.log(onePlace)
+    } catch (err) {
+      alert(err);
     }
-  };
+  }
 
-  async function addPlace(event) {
-    event.preventDefault();
+   useEffect(() => {
+    getPlace()
+  }, []);
 
-    const newPlace = {
-      placeName,
-      userId,
-      category,
-      visitedDate,
-      location: currentLocation || location,
-      contact,
-      image,
-      description,
-      latitude,
-      longitude,
-    };
+   useEffect(() => {
+
+    setUserId(place.userId);
+    setPlaceName(place.placeName);
+    setCategory(place.category);
+    setVisitedDate(place.visitedDate);
+    setLocation(place.location);
+    setContact(place.contact);
+    setImage(place.image);
+    setDescription(place.description);
+  
+  }, [place]);
+
+  async function UpdateData(e) {
+    e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/favplace/addfavplace",
-        newPlace,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      );
-      console.log("Favorite place added:", response.data);
+      const updatePlace = {
+        newPlaceName,
+        newUserId,
+        newCategory,
+        newVisitedDate,
+        newLocation,
+        currentLocation,
+        newContact,
+        newImage,
+        newDescription,
+      };
+      
+      await axios.put(
+        `http://localhost:8080/favplace/updateplace/${id}`,updatePlace);
 
-        setPlaceName("");
-        setUserId("");
-        setCategory("");
-        setVisitedDate("");
-        setLocation("");
-        setContact("");
-        setImage("");
-        setDescription("");
-        setLatitude("");
-        setLongitude("");
-
-    } catch (error) {
-     alert(error.response.data.error)
+      toast.success(" Updated Successfully", {
+        autoClose: 1000,
+      });
+      setTimeout(() => (window.location.href = `/displayfav`), 1000);
+    } catch (err) {
+      alert(err);
     }
   }
 
@@ -109,12 +94,49 @@ function AddFavPlace() {
     };
   }
 
-    const containerStyle = {
-      backgroundImage: `url(${slide})`, 
-      backgroundSize: "cover",
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "center",
-    };
+  const containerStyle = {
+    backgroundImage: `url(${slide})`,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+  };
+
+   const initializeGeolocation = () => {
+    console.log("call")
+     if (navigator.geolocation) {
+       navigator.geolocation.getCurrentPosition(
+         (position) => {
+           const { latitude, longitude } = position.coords;
+           setCurrentLocation(`${latitude},${longitude}`);
+           fetchLocationName(latitude, longitude);
+         },
+         (error) => {
+           console.error("Error fetching current location:", error);
+         }
+       );
+     } else {
+       console.log("Geolocation is not supported by this browser.");
+     }
+   };
+
+   const fetchLocationName = async (latitude, longitude) => {
+     setLatitude(latitude);
+     setLongitude(longitude);
+     try {
+       const response = await axios.get(
+         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyACdwaw1h6cATe6laoMWoayEniMemjgVkE`
+       );
+
+       const formattedAddress = response.data.results[0].formatted_address;
+       setCurrentLocation(formattedAddress);
+     } catch (error) {
+       console.error("Error fetching location name:", error);
+     }
+   };
+
+
+  
+
 
   return (
     <>
@@ -152,7 +174,7 @@ function AddFavPlace() {
                         name="placeName"
                         id="placeName"
                         className="h-10 border mt-1 rounded px-4 w-full text-gray-600 bg-gray-50 text-base"
-                        value={placeName}
+                        value={newPlaceName}
                         onChange={(e) => setPlaceName(e.target.value)}
                       />
                     </div>
@@ -165,7 +187,7 @@ function AddFavPlace() {
                         name="userId"
                         id="userId"
                         className="h-10 border mt-1 rounded px-4 w-full text-gray-600 bg-gray-50 text-base"
-                        value={userId}
+                        value={newUserId}
                         onChange={(e) => setUserId(e.target.value)}
                       />
                     </div>
@@ -176,6 +198,7 @@ function AddFavPlace() {
                       <p className="mb-3"></p>
                       <select
                         name="category"
+                        value={newCategory}
                         required
                         id="category"
                         onChange={(e) => {
@@ -206,7 +229,7 @@ function AddFavPlace() {
                           name="location"
                           id="location"
                           className="h-10 border mt-1 rounded px-4 w-full text-gray-600 bg-gray-50 text-base"
-                          value={currentLocation || location}
+                          value={ currentLocation || newLocation }
                           onChange={(e) => setLocation(e.target.value)}
                         />
                         <button
@@ -226,7 +249,7 @@ function AddFavPlace() {
                         name="contact"
                         id="contact"
                         className="h-10 border mt-1 rounded px-4 w-full text-gray-600 bg-gray-50 text-base"
-                        value={contact}
+                        value={newContact}
                         onChange={(e) => setContact(e.target.value)}
                       />
                     </div>
@@ -239,7 +262,7 @@ function AddFavPlace() {
                         name="visitedDate"
                         id="visitedDate"
                         className="h-10 border mt-1 rounded px-4 w-full text-gray-600  bg-gray-50 text-base"
-                        value={visitedDate}
+                        value={newVisitedDate}
                         onChange={(e) => setVisitedDate(e.target.value)}
                       />
                     </div>
@@ -252,7 +275,7 @@ function AddFavPlace() {
                         name="description"
                         id="description"
                         className="h-10 border text-gray-600 mt-1 rounded px-4 w-full bg-gray-50 text-base"
-                        value={description}
+                        value={newDescription}
                         onChange={(e) => setDescription(e.target.value)}
                       />
                     </div>
@@ -268,11 +291,11 @@ function AddFavPlace() {
                         className="h-10 mt-1 w-full bg-gray-50 text-base"
                         accept="image/*"
                       />
-                      {image && (
+                      {newImage && (
                         <img
                           alt="preview"
                           className="mt-2 max-h-20"
-                          src={image}
+                          src={newImage}
                         />
                       )}
                     </div>
@@ -281,9 +304,9 @@ function AddFavPlace() {
                       <div className="inline-flex items-end">
                         <button
                           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                          onClick={addPlace}
+                          onClick={UpdateData}
                         >
-                          Add Place
+                          Update Details
                         </button>
                       </div>
                     </div>
@@ -296,7 +319,6 @@ function AddFavPlace() {
       </div>
     </>
   );
-
 }
 
-export default AddFavPlace;
+export default UpdatePlace
