@@ -22,7 +22,7 @@ const addFavPlace = async (req, res) => {
   try {
     //add new place
     const newPlace = new favouritePlace({
-      placeName: req.body.placeName,
+      placeName2: req.body.placeName2,
       userId: req.body.userId,
       category: req.body.category,
       visitedDate: req.body.visitedDate,
@@ -81,7 +81,7 @@ const updatePlace = async (req, res) => {
   } = req.body;
 
   const updateData = {
-    placeName: newPlaceName,
+    placeName2: newPlaceName,
     userId: newUserId,
     category: newCategory,
     visitedDate: newVisitedDate,

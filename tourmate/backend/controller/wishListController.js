@@ -8,9 +8,9 @@ const createWishList = async (req, res) => {
   try {
     //add new list
     const newList = new WishList({
-      placeName: req.body.placeName,
+      placeName2: req.body.placeName2,
       userId:req.body.userId,
-      packageName:req.body.packageName,
+      placeName:req.body.placeName,
       description:req.body.description,
       lat:req.body.lat,
       long:req.body.long,
@@ -48,20 +48,43 @@ const readWishListByUserId = async (req, res) => {
 
 
   //delete one place 
-const deletePlace = async (req, res) => {
-  const id = req.params.id;
-  const place = await WishList.findByIdAndDelete(id);
+// const deletePlace = async (req, res) => {
+//   const id = req.params.id;
+//   const place = await WishList.findByIdAndDelete(id);
 
-  place
-    ? res.status(200).json(place)
-    : res.status(400).json({ message: "place details not deleted" });
+//   place
+//     ? res.status(200).json(place)
+//     : res.status(400).json({ message: "place details not deleted" });
+// };
+
+
+
+
+const deletePlace = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Check if the profile exists
+    const deletedPlace = await WishList.findOne({ _id: id });
+    if (!deletedPlace) {
+      return res.status(404).json({ error: "place not found" });
+    }
+    // Delete the profile
+    await WishList.findOneAndDelete({ _id: id });
+
+    return res
+      .status(200)
+      .json({ message: "Task deleted successfully", deletedPlace });
+  } catch (err) {
+    return res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 
   //delete whole wishlist
   const deleteWishList = async (req, res) => {
-    const { packageName } = req.params;
-    const deletedItem = await WishList.deleteMany({ packageName });
+    const { placeName } = req.params;
+    const deletedItem = await WishList.deleteMany({ placeName });
    
     deletedItem
     ? res.status(200).json(deletedItem)

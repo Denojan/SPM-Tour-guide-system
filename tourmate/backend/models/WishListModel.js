@@ -7,10 +7,10 @@ const wishListSchema = new Schema({
       type: String,
       required: true,
     },
-    packageName:{
+    placeName:{
       type:String,
     },
-    placeName: {
+    placeName2: {
       type: String,
       required: true,
     },

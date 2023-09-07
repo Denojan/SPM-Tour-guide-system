@@ -14,7 +14,7 @@ router.post('/create', createWishList);
 router.get('/getWishlist/:userId', readWishListByUserId);
 router.put('/updateWishList/:id', updateWishList);
 router.delete('/deletePlace/:id',deletePlace);
-router.delete('/deleteWishList/:packageName',deleteWishList);
+router.delete('/deleteWishList/:placeName',deleteWishList);
 
 
 

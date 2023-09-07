@@ -35,13 +35,13 @@ function DisplayPackageDetails() {
             <a href="#!">
               <img
                 src={place.image}
-                alt={place.placeName}
+                alt={place.placeName2}
                 className="w-full h-40 object-cover"
               />
             </a>
             <div className="p-4">
               <h5 className="text-xl font-semibold mb-2 text-gray-800">
-                {place.placeName}
+                {place.placeName2}
               </h5>
               <p className="text-sm text-gray-500">
                 Location: {place.location}
