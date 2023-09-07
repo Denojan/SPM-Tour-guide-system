@@ -1,8 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AddFavPlace from "./component/AddFavPlace";
 import DisplayFavPlace from "./component/DisplayFavPlace";
-import Test from "./component/Test";
+import Map from "./component/Map";
 import NavBar from "./component/NavBar";
+import Footer from "./component/Footer";
+import DisplayHiddenSpecific from "./component/DisplayHiddenSpecific";
+import Profile from "./component/Profile";
+import DisplayAllHidden from "./component/DisplayAllHidden";
+import UpdatePlace from "./component/UpdatePlace";
+
 
 function App() {
   return (
@@ -11,8 +17,13 @@ function App() {
       <Routes>
         <Route path="/addfavplace" element={<AddFavPlace />} />
         <Route path="/displayfav" element={<DisplayFavPlace />} />
-        <Route path="/test" element={<Test />} />
+        <Route path="/displayhidden" element={<DisplayHiddenSpecific />} />
+        <Route path="/displayallhidden" element={<DisplayAllHidden />} />
+        <Route path="/map" element={<Map />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/updateplace/:id" element={<UpdatePlace />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }

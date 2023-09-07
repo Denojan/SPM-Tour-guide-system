@@ -8,6 +8,7 @@ import {
   DirectionsRenderer,
 } from "@react-google-maps/api";
 import axios from "axios";
+import map from "../assert/map1.png";
 
 const containerStyle = {
   width: "100%",
@@ -44,9 +45,11 @@ function Map() {
     async function fetchFavoritePlaces() {
       try {
         const response = await axios.get(
-          "http://localhost:8080/favplace/getallplaces/aaa"
+          "http://localhost:8080/favplace/gethidden"
         );
+       
         const placesWithCoordinates = await getCoordinatesForPlaces(response.data.place);
+        console.log(placesWithCoordinates)
         setFavoritePlaces(placesWithCoordinates);
       } catch (error) {
         console.error("Error fetching favorite places:", error);
@@ -351,29 +354,78 @@ console.log(nearestDistance);
           {/* Display information about the nearest place when available */}
           {nearestPlace && (
             <div>
-              <h2 className="text-lg font-semibold">Nearest Place</h2>
+              <h2 className="text-3xl font-bold mb-5">Nearest Hidden Place</h2>
               <img
                 src={nearestPlace.image}
                 alt={nearestPlace.placeName}
-                className="w-full h-40 object-cover"
+                className="w-full h-40 object-cover mb-5 rounded-lg"
               />
-              <p>Place Name: {nearestPlace.placeName}</p>
-              <p>Visited Date: {nearestPlace.visitedDate}</p>
+
+              <p className="text-2xl font-bold text-blue-950">
+                {nearestPlace.placeName}
+                {weatherNear && (
+                  <span className="ml-3">
+                    {parseFloat(weatherNear.main.temp) > 30 ? (
+                      <span>
+                        <span className="text-xl ml-48 font-bold text-orange-500">
+                          {weatherNear.main.temp}°C
+                        </span>
+                        <br />
+                      </span>
+                    ) : parseFloat(weatherNear.main.temp) >= 25 &&
+                      parseFloat(weatherNear.main.temp) <= 29 ? (
+                      <span>
+                        <span className="text-xl ml-24 font-bold text-green-500">
+                          {weatherNear.main.temp}°C
+                        </span>
+                        <br />
+                      </span>
+                    ) : (
+                      <span>
+                        <span className="text-xl ml-44 font-bold text-sky-700">
+                          {weatherNear.main.temp}°C
+                        </span>
+                        <br />
+                      </span>
+                    )}
+                    <span className="text-xl ml-64 font-bold text-sky-700">
+                      {weatherNear.weather[0].description}
+                    </span>
+                  </span>
+                )}
+              </p>
+
               {/* Display current weather information for the nearest place */}
-              {weatherNear && (
-                <div>
-                  <h3 className="mt-4">Weather Information</h3>
-                  <p>Temperature: {weatherNear.main.temp}°C</p>
-                  <p>Weather Condition: {weatherNear.weather[0].description}</p>
-                </div>
-              )}
+
               {/* Display distance from user's current location */}
               {nearestDistance !== null && (
-                <div>
-                  <h3 className="mt-4">Distance Information</h3>
-                  <p>Distance: {nearestDistance.toFixed(2)} km</p>
+                <div className="mt-5">
+                  <hr></hr>
+                  <img
+                    src={map}
+                    alt="map logo"
+                    className="w-5%  object-cover"
+                  />
+                  <h3 className="mt-4 text-2xl font-bold mb-3">
+                   
+                  </h3>
+                  <p className="text-xl font-bold text-blue-950">
+                    <span className=" text-2xl text-sky-700">
+                      {nearestDistance.toFixed(2)} km
+                    </span>{" "}
+                  </p>
                 </div>
               )}
+
+              <div className="mt-5">
+                <hr></hr>
+                <h3 className="mt-4 text-2xl font-bold mb-3">Description</h3>
+                <p className="text-base  text-blue-950">
+                  <textarea className="w-96 h-40 text-lg" disabled>
+                    {nearestPlace.description}
+                  </textarea>
+                </p>
+              </div>
             </div>
           )}
         </div>
@@ -423,7 +475,7 @@ console.log(nearestDistance);
                   {weather && (
                     <div>
                       <h3>Weather Information</h3>
-                      <p className="text-lime-600">
+                      <p className="text-black">
                         Temperature: {weather.main.temp}°C
                       </p>
                       <p>Weather Condition: {weather.weather[0].description}</p>
