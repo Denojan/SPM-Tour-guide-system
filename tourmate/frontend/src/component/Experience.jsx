@@ -47,14 +47,14 @@ export default function Experience() {
       <div className="relative">
           <img
             src={cvr}
-            className="w-full h-96 object-cover custom-image"
+            className="w-full h-64 object-cover custom-image"
             alt="Cover Image"
             style={{
-              borderBottomLeftRadius: "70px", 
-              borderBottomRightRadius: "70px", 
+              borderBottomLeftRadius: "90px", 
+              borderBottomRightRadius: "90px", 
             }}
           />
-          <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 z-10">
+          <div className=" absolute top-3 right-3 transform -translate-x-1/2 z-10">
             <div className=" flex p-5">
               <Link
                 to="/addExp"
@@ -174,8 +174,8 @@ export default function Experience() {
                     </dl>
                     <div className="mt-4">
                       <button
-                        className="bg-indigo-600 text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg mr-2"
-                        onClick={() => onDelete(experience._id)} // Use experience._id instead of experience.id
+                        className="bg-[#1f1758] hover:bg-[#62d9e0] text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg mr-2"
+                        onClick={() => onDelete(experience._id)} 
                       >
                         Delete
                       </button>
@@ -183,13 +183,13 @@ export default function Experience() {
 
                       <Link
                         to={`/updateExp/${experience._id}`}
-                        className="bg-indigo-600 text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg"
+                        className="bg-[#1f1758] hover:bg-[#62d9e0] text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg"
                       >
                         Update
                       </Link>
                     </div>
                   </div>
-                  <p className="mt-4 text-sm leading-6 text-gray-700">
+                  <p className="mt-4  text-sm leading-6 text-gray-700">
                     {experience.description}
                   </p>
                 </div>
