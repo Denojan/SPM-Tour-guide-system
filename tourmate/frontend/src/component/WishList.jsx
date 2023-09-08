@@ -58,6 +58,12 @@ function Wishlist() {
     }
   };
 
+  const handleVist = (place) => {
+    const { lat, long } = place;
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${long}`;
+    window.open(url, '_blank');
+  };
+
   // Filter places based on the search query
   const filteredPlaces = placesData.filter((place) =>
     place.placeName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -148,6 +154,13 @@ function Wishlist() {
                                 onClick={() => handleDeleteClick(place._id)}
                               >
                                 Delete
+                              </button>
+                              <button
+                                type="button"
+                                className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2"
+                                onClick={() => handleVist(place)}
+                              >
+                                visit
                               </button>
                             </div>
                           </div>
