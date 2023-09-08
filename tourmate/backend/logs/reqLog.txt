@@ -129,6 +129,7 @@
 20230907	17:28:06	40bcdd41-b4bb-47fc-8040-daf24bc8f94f	GET	http://localhost:3000	/api/place?name=jaff&key=AIzaSyACdwaw1h6cATe6laoMWoayEniMemjgVkE
 20230907	17:30:25	0254e38b-7e72-4f1e-a5b7-b49412f8b609	GET	http://localhost:3000	/api/place?name=jaff&key=AIzaSyACdwaw1h6cATe6laoMWoayEniMemjgVkE
 20230907	17:30:26	2b93b0d2-5ddb-4c03-a215-856f7b4ca4ef	GET	http://localhost:3000	/api/places?lat=11.144976&lon=76.0966275&radius=10000&keyword=tourist_attraction&apiKey=AIzaSyACdwaw1h6cATe6laoMWoayEniMemjgVkE
+<<<<<<< HEAD
 20230908	06:06:33	c6d05dc6-8af2-471d-922f-53ef446c8c5c	GET	http://localhost:3000	/api/place?name=matara&key=AIzaSyACdwaw1h6cATe6laoMWoayEniMemjgVkE
 20230908	06:06:34	58984be8-2d3d-4f5c-9f29-5017685ab051	GET	http://localhost:3000	/api/places?lat=5.9496309&lon=80.54685289999999&radius=10000&keyword=tourist_attraction&apiKey=AIzaSyACdwaw1h6cATe6laoMWoayEniMemjgVkE
 20230908	06:07:02	dc236304-f9bc-4dc1-ba24-b67436e4ef05	GET	http://localhost:3000	/favplace/gethidden
@@ -834,3 +835,10 @@
 20230908	11:14:11	f22d35be-1d48-4cfd-92d8-95c2de139d36	GET	http://localhost:3000	/favplace/getallplaces/user1
 20230908	11:15:20	b17de5fb-67c2-4827-9262-f7d24e39d411	GET	http://localhost:3000	/wishlist/getWishlist/user2
 20230908	11:15:20	cdee02b3-559c-4ef9-920d-4dc47d5248bb	GET	http://localhost:3000	/wishlist/getWishlist/user2
+=======
+20230908	08:22:08	b77e6fb2-99f5-4d80-b829-dd454cf96c80	GET	http://localhost:3000	/api/place?name=Matara&key=AIzaSyACdwaw1h6cATe6laoMWoayEniMemjgVkE
+20230908	08:22:09	56c40f6a-32e1-42af-bbd9-bd7cd3de2574	GET	http://localhost:3000	/api/places?lat=5.9496309&lon=80.54685289999999&radius=10000&keyword=tourist_attraction&apiKey=AIzaSyACdwaw1h6cATe6laoMWoayEniMemjgVkE
+20230908	08:22:37	14f5ad8e-d37a-4e1e-a9e7-5995f747e014	GET	http://localhost:3000	/wishlist/getWishlist/user2
+20230908	08:22:38	63d4f6ad-1102-44db-bb88-f6fcb9958d95	GET	http://localhost:3000	/wishlist/getWishlist/user2
+20230908	08:24:01	e4aaefff-a681-4d4d-8212-c1f72246e4d9	GET	http://localhost:3000	/wishlist/getWishlist/user2
+>>>>>>> 770ded3bc227715355ebfd840ff172c0153d59f4
