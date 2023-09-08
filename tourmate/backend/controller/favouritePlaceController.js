@@ -213,12 +213,42 @@ const updatePlace = async (req, res) => {
   }
 };
 
+const getAllLocationPlaces = async (req, res) => {
+  try {
+    const userId = req.params.userid;
+    const { lat, lon, radius } = req.query;
+    const radiusInMeters = parseFloat(radius);
+
+    // Convert radius to radians (MongoDB requires radians)
+    const radiusInRadians = radiusInMeters / 6371000; // Earth's radius in meters
+
+    // Perform a radius-based search using $geoWithin and $centerSphere
+    const places = await favouritePlace.find({
+      userId: userId,
+      location: {
+        $geoWithin: {
+          $centerSphere: [[parseFloat(lon), parseFloat(lat)], radiusInRadians],
+        },
+      },
+    });
+    console.log("s");
+console.log(places);
+    res.status(200).json({ places });
+  } catch (error) {
+    console.error("An error occurred:", error); // Log the error for debugging
+    res.status(500).json({ error: "Failed to fetch Place", errorMessage: error.message });
+  }
+};
+
+
 module.exports = {
   getAllPlaces,
   addFavPlace,
   deletePlace,
   updatePlace,
+  getAllLocationPlaces,
   getHiddenPlaces,
   getHiddenSpecificUser,
   getAnyPlace,
+
 };

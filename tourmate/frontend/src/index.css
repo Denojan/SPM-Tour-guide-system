@@ -24,3 +24,12 @@ code {
 .custom-image {
   border-radius: 0px 0px 100px 100px; /* top-left, top-right, bottom-right, bottom-left */
 }
+
+.bg-image {
+  background-image: url('assert/back.jpeg'); /* Replace with your image URL */
+  background-size: cover;
+  background-repeat: repeat;
+  background-attachment: fixed; /* This keeps the image fixed while scrolling */
+  opacity: 0.9;
+  /* Other background properties like position, etc. can be added here */
+}
