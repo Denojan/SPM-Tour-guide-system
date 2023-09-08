@@ -56,7 +56,7 @@ function AddFavPlace() {
 
     const newPlace = {
       placeName,
-      userId,
+      userId: "user1",
       category,
       visitedDate,
       location: currentLocation || location,
@@ -154,19 +154,6 @@ function AddFavPlace() {
                         className="h-10 border mt-1 rounded px-4 w-full text-gray-600 bg-gray-50 text-base"
                         value={placeName}
                         onChange={(e) => setPlaceName(e.target.value)}
-                      />
-                    </div>
-                    <p className="text-gray-500 text-center text-lg mb-2"></p>
-
-                    <div className="md:col-span-2 text-xl font-semibold">
-                      <label htmlFor="userId">UserID</label>
-                      <input
-                        type="text"
-                        name="userId"
-                        id="userId"
-                        className="h-10 border mt-1 rounded px-4 w-full text-gray-600 bg-gray-50 text-base"
-                        value={userId}
-                        onChange={(e) => setUserId(e.target.value)}
                       />
                     </div>
                     <p className="text-gray-500 text-center text-lg mb-2"></p>

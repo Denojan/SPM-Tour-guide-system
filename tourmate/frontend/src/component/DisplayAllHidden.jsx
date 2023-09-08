@@ -72,7 +72,7 @@ function DisplayAllHidden() {
   };
 
   return (
-    <div className="bg-slate-400 pb-10">
+    <div className="pb-10">
       <div className="relative">
         <img src={slide} className="w-full h-96 object-cover custom-image" />
         <p class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white bg-black text-6xl text-center font-bold bg-opacity-50 px-4 py-2 ">
@@ -137,9 +137,7 @@ function DisplayAllHidden() {
                 <h5 className="text-3xl font-semibold mb-2 text-gray-800">
                   {place.placeName}
                 </h5>
-                <p className="text-xl text-gray-500">
-                  Visited Date: {place.visitedDate}
-                </p>
+               
               </div>
             </div>
           ))
@@ -155,12 +153,6 @@ function DisplayAllHidden() {
               <h2 className="text-3xl font-semibold mb-2 text-gray-800">
                 {selectedPlace.placeName}
               </h2>
-              <p className="text-lg font-semibold text-blue-950">
-                Visited Date:{"  "}
-                <span className="ml-3 text-lg text-orange-600">
-                  {selectedPlace.visitedDate}
-                </span>
-              </p>
               <span></span>
               <p className="text-lg font-semibold text-blue-950">
                 Location:

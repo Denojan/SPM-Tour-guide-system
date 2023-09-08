@@ -147,7 +147,7 @@ function UpdatePlace() {
         <div className="container max-w-screen-lg mx-auto">
           <div>
             <h2 className="font-bold text-5xl text-center text-black-600">
-              Capture Your Journey , Memorize Your Trip
+             Keep Your Favourite Place Details Updated
             </h2>
             <p className="text-gray-500 text-center text-2xl mb-6"></p>
             <p className="text-gray-500 text-center text-2xl mb-6">
@@ -176,19 +176,6 @@ function UpdatePlace() {
                         className="h-10 border mt-1 rounded px-4 w-full text-gray-600 bg-gray-50 text-base"
                         value={newPlaceName}
                         onChange={(e) => setPlaceName(e.target.value)}
-                      />
-                    </div>
-                    <p className="text-gray-500 text-center text-lg mb-2"></p>
-
-                    <div className="md:col-span-2 text-xl font-semibold">
-                      <label htmlFor="userId">UserID</label>
-                      <input
-                        type="text"
-                        name="userId"
-                        id="userId"
-                        className="h-10 border mt-1 rounded px-4 w-full text-gray-600 bg-gray-50 text-base"
-                        value={newUserId}
-                        onChange={(e) => setUserId(e.target.value)}
                       />
                     </div>
                     <p className="text-gray-500 text-center text-lg mb-2"></p>

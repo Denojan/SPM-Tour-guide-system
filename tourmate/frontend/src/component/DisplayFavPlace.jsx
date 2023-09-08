@@ -9,12 +9,15 @@ function DisplayFavPlace() {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [dropdownIndex, setDropdownIndex] = useState(null);
   const [filterOption, setFilterOption] = useState("All");
+  const [userId, setUserId] = useState("user1");
 
   useEffect(() => {
     async function fetchFavoritePlaces() {
+    
       try {
+      
         const response = await axios.get(
-          "http://localhost:8080/favplace/getallplaces/aaa"
+          `http://localhost:8080/favplace/getallplaces/${userId}`
         );
         console.log(response);
         setFavoritePlaces(response.data.place);
@@ -92,11 +95,13 @@ function DisplayFavPlace() {
 
   const handleTextSearch = (e) => {
     const searchTerm = e.currentTarget.value;
-    axios.get(`http://localhost:8080/favplace/getallplaces/aaa`).then((res) => {
-      if (res.data.place) {
-        filterContent(res.data.place, searchTerm);
-      }
-    });
+    axios
+      .get(`http://localhost:8080/favplace/getallplaces/${userId}`)
+      .then((res) => {
+        if (res.data.place) {
+          filterContent(res.data.place, searchTerm);
+        }
+      });
   };
 
   function filterContent(place, searchTerm) {

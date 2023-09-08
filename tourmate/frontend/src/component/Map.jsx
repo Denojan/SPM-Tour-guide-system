@@ -16,7 +16,7 @@ const containerStyle = {
 };
 
 const libraries = ["geometry", "directions"];
-const PROXIMITY_THRESHOLD =500;
+const PROXIMITY_THRESHOLD = 500;
 
 const center = {
   lat: 7.8731, // Default center for the map
@@ -29,17 +29,14 @@ function Map() {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [directions, setDirections] = useState(null);
   const [weather, setWeather] = useState(null);
-   const [weatherNear, setNearWeather] = useState(null);
+  const [weatherNear, setNearWeather] = useState(null);
   const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState(null);
   const [nearestPlace, setNearestPlace] = useState(null);
   const [nearestPlaceone, setIsNearFavoritePlace] = useState(false);
   const [showNearestPlaceInfo, setShowNearestPlaceInfo] = useState(true);
   const [nearestDistance, setNearestDistance] = useState(null);
-   const [userLocation, setUserLocation] = useState(null);
-
-
-
+  const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
     async function fetchFavoritePlaces() {
@@ -47,9 +44,11 @@ function Map() {
         const response = await axios.get(
           "http://localhost:8080/favplace/gethidden"
         );
-       
-        const placesWithCoordinates = await getCoordinatesForPlaces(response.data.place);
-        console.log(placesWithCoordinates)
+
+        const placesWithCoordinates = await getCoordinatesForPlaces(
+          response.data.place
+        );
+        console.log(placesWithCoordinates);
         setFavoritePlaces(placesWithCoordinates);
       } catch (error) {
         console.error("Error fetching favorite places:", error);
@@ -156,7 +155,7 @@ function Map() {
   useEffect(() => {
     // Update weather data when selectedPlace changes
     if (selectedPlace) {
-      console.log(selectedPlace)
+      console.log(selectedPlace);
       fetchWeather(selectedPlace.latitude, selectedPlace.longitude);
     } else {
       setWeather(null); // Clear weather data when no marker is selected
@@ -177,8 +176,6 @@ function Map() {
       console.error("Error fetching weather data:", error);
     }
   };
-
-
 
   function getDistance(lat1, lon1, lat2, lon2) {
     const R = 6371; // Radius of the Earth in kilometers
@@ -225,124 +222,118 @@ function Map() {
     return nearestPlace;
   }
 
-   
-     useEffect(() => {
+  useEffect(() => {
+    if (nearestPlace) {
+      setNearestPlace(nearestPlace);
+    }
+  }, [nearestPlace]);
 
-       if (nearestPlace) {
-         setNearestPlace(nearestPlace);   
-       }
-      
-     }, [nearestPlace]);
+  const checkProximityToFavoritePlaces = useCallback(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLocationData = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          setUserLocation(userLocationData); // Update userLocation state
 
+          // Calculate the nearest place
+          const nearest = calculateNearestPlace(userLocationData);
+          setNearestPlace(nearest);
 
+          // Check proximity to each favorite place (optional)
+          const isNear = favoritePlaces.some((place) => {
+            const placeLocation = {
+              lat: place.latitude,
+              lng: place.longitude,
+            };
 
- const checkProximityToFavoritePlaces = useCallback(() => {
-   if (navigator.geolocation) {
-     navigator.geolocation.getCurrentPosition(
-       (position) => {
-         const userLocationData = {
-           lat: position.coords.latitude,
-           lng: position.coords.longitude,
-         };
-         setUserLocation(userLocationData); // Update userLocation state
+            const distance = getDistance(
+              userLocationData.lat,
+              userLocationData.lng,
+              placeLocation.lat,
+              placeLocation.lng
+            );
 
-         // Calculate the nearest place
-         const nearest = calculateNearestPlace(userLocationData);
-         setNearestPlace(nearest);
+            return distance <= PROXIMITY_THRESHOLD;
+          });
 
-         // Check proximity to each favorite place (optional)
-         const isNear = favoritePlaces.some((place) => {
-           const placeLocation = {
-             lat: place.latitude,
-             lng: place.longitude,
-           };
+          setIsNearFavoritePlace(isNear);
 
-           const distance = getDistance(
-             userLocationData.lat,
-             userLocationData.lng,
-             placeLocation.lat,
-             placeLocation.lng
-           );
-
-           return distance <= PROXIMITY_THRESHOLD;
-         });
-
-         setIsNearFavoritePlace(isNear);
-
-         // Set showNearestPlaceInfo to true when the nearest place is found
-         if (isNear) {
-           setShowNearestPlaceInfo(true);
-         }
-       },
-       (error) => {
-         console.error("Error getting user location:", error);
-       }
-     );
-   } else {
-     console.error("Geolocation is not supported by this browser.");
-   }
- }, [favoritePlaces]);
+          // Set showNearestPlaceInfo to true when the nearest place is found
+          if (isNear) {
+            setShowNearestPlaceInfo(true);
+          }
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }, [favoritePlaces]);
 
   function deg2rad(deg) {
     return deg * (Math.PI / 180);
   }
 
-   useEffect(() => {
-     checkProximityToFavoritePlaces();
-   }, [checkProximityToFavoritePlaces]);
+  useEffect(() => {
+    checkProximityToFavoritePlaces();
+  }, [checkProximityToFavoritePlaces]);
 
-   const fetchNearestPlaceWeather = async (nearestPlace) => {
-     if (nearestPlace) {
-       try {
-         const response = await axios.get(
-           `https://api.openweathermap.org/data/2.5/weather?lat=${nearestPlace.latitude}&lon=${nearestPlace.longitude}&appid=630c69f94c458f628031272842978ea3&units=metric`
-         );
+  const fetchNearestPlaceWeather = async (nearestPlace) => {
+    if (nearestPlace) {
+      try {
+        const response = await axios.get(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${nearestPlace.latitude}&lon=${nearestPlace.longitude}&appid=630c69f94c458f628031272842978ea3&units=metric`
+        );
 
-         const weatherData = response.data;
-         setNearWeather(weatherData);
-       } catch (error) {
-         console.error(
-           "Error fetching weather data for the nearest place:",
-           error
-         );
-       }
-     }
-   };
-
-const fetchNearestPlaceData = async (nearestPlace) => {
-  if (nearestPlace) {
-    try {
-      // Fetch weather data
-      const weatherResponse = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${nearestPlace.latitude}&lon=${nearestPlace.longitude}&appid=630c69f94c458f628031272842978ea3&units=metric`
-      );
-
-      const weatherData = weatherResponse.data;
-      setNearWeather(weatherData);
-
-      // Calculate the distance
-      const distance = getDistance(
-        nearestPlace.latitude,
-        nearestPlace.longitude,
-        userLocation.lat,
-        userLocation.lng
-      );
-
-      setNearestDistance(distance);
-    } catch (error) {
-      console.error("Error fetching data for the nearest place:", error);
+        const weatherData = response.data;
+        setNearWeather(weatherData);
+      } catch (error) {
+        console.error(
+          "Error fetching weather data for the nearest place:",
+          error
+        );
+      }
     }
-  }
-};
+  };
 
+  const fetchNearestPlaceData = async (nearestPlace) => {
+    if (nearestPlace) {
+      try {
+        // Fetch weather data
+        const weatherResponse = await axios.get(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${nearestPlace.latitude}&lon=${nearestPlace.longitude}&appid=630c69f94c458f628031272842978ea3&units=metric`
+        );
 
-     useEffect(() => {
-       // Update weather data when nearestPlace changes
-       fetchNearestPlaceWeather(nearestPlace);
-       fetchNearestPlaceData(nearestPlace);
-     }, [nearestPlace]);
+        const weatherData = weatherResponse.data;
+        setNearWeather(weatherData);
 
-console.log(nearestDistance);
+        // Calculate the distance
+        const distance = getDistance(
+          nearestPlace.latitude,
+          nearestPlace.longitude,
+          userLocation.lat,
+          userLocation.lng
+        );
+
+        setNearestDistance(distance);
+      } catch (error) {
+        console.error("Error fetching data for the nearest place:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    // Update weather data when nearestPlace changes
+    fetchNearestPlaceWeather(nearestPlace);
+    fetchNearestPlaceData(nearestPlace);
+  }, [nearestPlace]);
+
+  console.log(nearestDistance);
   return (
     <LoadScript
       googleMapsApiKey="AIzaSyACdwaw1h6cATe6laoMWoayEniMemjgVkE"
@@ -367,7 +358,7 @@ console.log(nearestDistance);
                   <span className="ml-3">
                     {parseFloat(weatherNear.main.temp) > 30 ? (
                       <span>
-                        <span className="text-xl ml-48 font-bold text-orange-500">
+                        <span className="text-xl ml-32 relative font-bold text-orange-500">
                           {weatherNear.main.temp}°C
                         </span>
                         <br />
@@ -375,14 +366,14 @@ console.log(nearestDistance);
                     ) : parseFloat(weatherNear.main.temp) >= 25 &&
                       parseFloat(weatherNear.main.temp) <= 29 ? (
                       <span>
-                        <span className="text-xl ml-24 font-bold text-green-500">
+                        <span className="text-xl font-bold ml-32 relative text-green-500">
                           {weatherNear.main.temp}°C
                         </span>
                         <br />
                       </span>
                     ) : (
                       <span>
-                        <span className="text-xl ml-44 font-bold text-sky-700">
+                        <span className="text-xl ml-32 relative font-bold text-sky-700">
                           {weatherNear.main.temp}°C
                         </span>
                         <br />
@@ -406,9 +397,7 @@ console.log(nearestDistance);
                     alt="map logo"
                     className="w-5%  object-cover"
                   />
-                  <h3 className="mt-4 text-2xl font-bold mb-3">
-                   
-                  </h3>
+                  <h3 className="mt-4 text-2xl font-bold mb-3"></h3>
                   <p className="text-xl font-bold text-blue-950">
                     <span className=" text-2xl text-sky-700">
                       {nearestDistance.toFixed(2)} km

@@ -7,12 +7,14 @@ function DisplayHiddenSpecific() {
   const [favoritePlaces, setFavoritePlaces] = useState([]);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [dropdownIndex, setDropdownIndex] = useState(null);
+  const [userId, setUserId] = useState("user1");
 
   useEffect(() => {
     async function fetchFavoritePlaces() {
       try {
+        
         const response = await axios.get(
-          "http://localhost:8080/favplace/gethiddenspecific/aaa"
+          `http://localhost:8080/favplace/gethiddenspecific/${userId}`
         );
         console.log(response);
         setFavoritePlaces(response.data.place);
@@ -45,7 +47,7 @@ function DisplayHiddenSpecific() {
 
   const handleTextSearch = (e) => {
     const searchTerm = e.currentTarget.value;
-    axios.get(`http://localhost:8080/favplace/getallplaces/aaa`).then((res) => {
+    axios.get(`http://localhost:8080/favplace/getallplaces/${userId}`).then((res) => {
       if (res.data.place) {
         filterContent(res.data.place, searchTerm);
       }
@@ -109,7 +111,7 @@ function DisplayHiddenSpecific() {
               onChange={handleTextSearch}
               id="default-search"
               className="block w-1/2 h-16 p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Search Mockups, Logos..."
+              placeholder="Search the location"
               required
             />
           </div>

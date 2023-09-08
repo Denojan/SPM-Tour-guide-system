@@ -1,8 +1,8 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 function NavBar() {
   return (
-
     <nav class="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="#" class="flex items-center">
@@ -12,9 +12,7 @@ function NavBar() {
             alt="Flowbite Logo"
           />
           <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-
-           TourMate
-
+            TourMate
           </span>
         </a>
         <button
@@ -45,8 +43,8 @@ function NavBar() {
           <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
             <li>
               <a
-                href="#"
-                class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent"
+                href="/"
+                class="block py-2 pl-3 pr-4 text-black bg-black-700 rounded md:bg-transparent md:text-black-700 md:p-0 md:dark:text-black-500 dark:bg-black-600 md:dark:bg-transparent"
                 aria-current="page"
               >
                 Home
@@ -54,27 +52,50 @@ function NavBar() {
             </li>
             <li>
               <a
-                href="#"
+                href="/displayfav"
                 class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
-                Services
+                Favourites
               </a>
             </li>
             <li>
               <a
-                href="#"
+                href="/displayallhidden"
                 class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
-                Pricing
+                Hidden Places
               </a>
             </li>
             <li>
               <a
-                href="#"
+                href="/displayhidden"
                 class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
-                Contact
+                My Hiddens
               </a>
+            </li>
+            <li>
+              <a
+                href="/exp"
+                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+              >
+                Experiences
+              </a>
+            </li>
+            <li>
+              <a
+                href="/map"
+                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+              >
+                Secret Spots Map
+              </a>
+            </li>
+            <li>
+              <Link to={`/addfavplace`}>
+              <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white p-1 px-4 border border-blue-500 hover:border-transparent rounded">
+                Place Addition
+              </button>
+              </Link>
             </li>
           </ul>
         </div>

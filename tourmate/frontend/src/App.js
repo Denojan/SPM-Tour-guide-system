@@ -16,6 +16,13 @@ import "react-toastify/dist/ReactToastify.css";
 import Register from "./component/Register";
 import Login from "./component/Login";
 
+import Footer from "./component/Footer";
+import DisplayHiddenSpecific from "./component/DisplayHiddenSpecific";
+import Profile from "./component/Profile";
+import DisplayAllHidden from "./component/DisplayAllHidden";
+import UpdatePlace from "./component/UpdatePlace";
+
+
 import RequireAuth from "./component/RequireAuth";
 import PersistLogin from "./component/PersistLogin";
 import Unauthorized from "./component/Unauthorized";
@@ -25,11 +32,6 @@ const ROLES = {
   Admin: 5150,
 };
 
-import Footer from "./component/Footer";
-import DisplayHiddenSpecific from "./component/DisplayHiddenSpecific";
-import Profile from "./component/Profile";
-import DisplayAllHidden from "./component/DisplayAllHidden";
-import UpdatePlace from "./component/UpdatePlace";
 
 
 
@@ -56,7 +58,6 @@ function App() {
 
         <Route path="/searchPlaces" element={<SearchPlaces />} />
         <Route path="/wishList" element={<WishList />} />
-        <Route path="/navbar"  element={<NavBar/>}/>
         <Route path="/updateNote" element={<UpdateNote/>}/>
        
      

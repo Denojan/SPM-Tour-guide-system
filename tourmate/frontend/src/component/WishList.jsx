@@ -3,7 +3,6 @@ import bg from "../asserts/bg.jpg";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import NavBar from "./NavBar";
 import { CgNotes } from 'react-icons/cg';
 
 function Wishlist() {
@@ -65,7 +64,6 @@ function Wishlist() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <NavBar />
       <div className="flex flex-col items-center">
         <h1
           className="text-6xl font-bold mb-4 mt-4"
