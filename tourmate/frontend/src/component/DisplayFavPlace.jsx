@@ -26,6 +26,7 @@ function DisplayFavPlace() {
     fetchFavoritePlaces();
   }, []);
 
+
   // async function addList(place) {
   //   const newPlace = {
   //     placeName2: place.name,

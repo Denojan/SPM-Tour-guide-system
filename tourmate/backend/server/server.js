@@ -11,8 +11,12 @@ const credentials = require('../middleware/credentials');
 const mongoose = require('mongoose');
 const connectDB = require('../config/dbConn');
 const favouritePlaceRoute = require("../routes/favouritePlaceRoutes");
+const packageRoute = require("../routes/packageRoutes"); 
+const wishListRoutes = require("../routes/wishListRoute"); 
+const placesRoutes = require("../routes/placesRoute"); 
 const axios = require('axios');
 const path = require('path');
+
 const PORT = process.env.PORT || 8080;
 const app = express();
 //const expressReactViews = require('express-react-views');
@@ -38,6 +42,10 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 
 console.log("server");
 app.use("/favplace", favouritePlaceRoute);
+app.use("/package", packageRoute);
+app.use("/wishlist",wishListRoutes);
+app.use("/places",placesRoutes);
+
 app.use('/', require('../routes/root'));
 app.use('/register', require('../routes/register'));
 app.use('/auth', require('../routes/auth'));
@@ -103,6 +111,7 @@ app.all('*', (req, res) => {
 });
 
 app.use(errorHandler);
+
 
 // start the Express server
 app.listen(PORT, () => {
