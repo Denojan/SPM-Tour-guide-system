@@ -5,11 +5,18 @@ const {
   addFavPlace,
   deletePlace,
   updatePlace,
+  getAllLocationPlaces,
+  getHiddenPlaces,
+  getHiddenSpecificUser,
+  getAnyPlace,
 } = require("../controller/favouritePlaceController");
  console.log("route");
 router.get("/getallplaces/:userid", getAllPlaces);
 router.post("/addfavplace", addFavPlace);
 router.delete("/deleteplace/:id", deletePlace);
 router.put("/updateplace/:id", updatePlace);
-
+router.get("/getlocationplaces/:userid", getAllLocationPlaces);
+router.get("/gethidden", getHiddenPlaces);
+router.get("/gethiddenspecific/:userid", getHiddenSpecificUser);
+router.get("/getanyplace/:id", getAnyPlace);
 module.exports = router;
