@@ -1,25 +1,127 @@
 const favouritePlace = require("../models/FavouritePlaceModel");
 
-//-----get all places for specific user----
 
-const getAllPlaces = async (req, res) => {
+const getHiddenPlaces = async (req, res) => {
+  const cate = "Hidden Place";
+  console.log(cate)
   try {
-    const userId = req.params.userid;
-
-    // Retrieve all the tasks related to the specific employee ID
-    const place = await favouritePlace.find({ userId: userId });
+    const place = await favouritePlace.find({ category: cate });
     res.status(200).json({ place });
   } catch (error) {
     console.error("An error occurred:", error); // Log the error for debugging
     res
       .status(500)
-      .json({ error: "Failed to add Place", errorMessage: error.message });
+      .json({ error: "place not found", errorMessage: error.message });
   }
 };
 
-const addFavPlace = async (req, res) => {
-    console.log("contrl")
+const getAnyPlace = async (req, res) => {
+    const id = req.params.id;
   try {
+    const place = await favouritePlace.find({ _id: id });
+    res.status(200).json({ place });
+  } catch (error) {
+    console.error("An error occurred:", error); // Log the error for debugging
+    res
+      .status(500)
+      .json({ error: "place not found", errorMessage: error.message });
+  }
+};
+
+const getHiddenSpecificUser = async (req, res) => {
+  const userId = req.params.userid;
+  const cate = "Hidden Place";
+  console.log(cate);
+  try {
+    const place = await favouritePlace.find({ category: cate, userId: userId });
+    res.status(200).json({ place });
+  } catch (error) {
+    console.error("An error occurred:", error); // Log the error for debugging
+    res
+      .status(500)
+      .json({ error: "place not found", errorMessage: error.message });
+  }
+};
+
+//-----get all places for specific user----
+
+const getAllPlaces = async (req, res) => {
+  try {
+    const userId = req.params.userid;
+    const categoriesToFetch = ["Favourite Place", "Favourite Hotel"];
+
+    // Retrieve all the places and hotels related to the specific user and categories
+    const place = await favouritePlace.find({
+      userId: userId,
+      category: { $in: categoriesToFetch },
+    });
+
+    res.status(200).json({ place });
+  } catch (error) {
+    console.error("An error occurred:", error); // Log the error for debugging
+    res
+      .status(500)
+      .json({
+        error: "Places and hotels not found",
+        errorMessage: error.message,
+      });
+  }
+};
+
+
+const addFavPlace = async (req, res) => {
+  
+  try {
+
+    var hidden = "Hidden Place"
+    var placeFavourite = "Favourite Place";
+    var placeFavouriteHottel = "Favourite Hottel";
+
+ const existingHiddenPlace = await favouritePlace.findOne({
+   placeName: req.body.placeName,
+   location: req.body.location,
+   category: hidden,
+ });
+
+
+  const existingFavouritePlace = await favouritePlace.findOne({
+    placeName: req.body.placeName,
+    location: req.body.location,
+    userId: req.body.userId,
+    category: placeFavourite,
+  });
+
+    const existingFavouriteHottel = await favouritePlace.findOne({
+      placeName: req.body.placeName,
+      location: req.body.location,
+      userId: req.body.userId,
+      category: placeFavouriteHottel,
+    });
+
+
+
+ if (existingFavouritePlace && req.body.category == "Favourite Place") {
+   // If a place with the same location and name exists, return an error message
+   return res
+     .status(400)
+     .json({ error: "Place already exists as a favourite" });
+ }
+
+ if (existingHiddenPlace && req.body.category == "Hidden Place") {
+   // If a place with the same location and name exists, return an error message
+   return res
+     .status(400)
+     .json({ error: "Place already exists Inside Hidden Places" });
+ }
+
+ if (existingFavouriteHottel && req.body.category == "Favourite Hottel") {
+   // If a place with the same location and name exists, return an error message
+   return res
+     .status(400)
+     .json({ error: "Hottel already exists as a favourite" });
+ }
+
+
     //add new place
     const newPlace = new favouritePlace({
       placeName: req.body.placeName,
@@ -76,6 +178,7 @@ const updatePlace = async (req, res) => {
       newUserId,
       newCategory,
       newVisitedDate,
+      currentLocation,
       newLocation,
       newContact,
       newImage,
@@ -87,7 +190,7 @@ const updatePlace = async (req, res) => {
     userId: newUserId,
     category: newCategory,
     visitedDate: newVisitedDate,
-    location: newLocation,
+    location: newLocation || currentLocation,
     contact: newContact,
     image: newImage,
     description: newDescription,
@@ -144,5 +247,8 @@ module.exports = {
   deletePlace,
   updatePlace,
   getAllLocationPlaces,
+  getHiddenPlaces,
+  getHiddenSpecificUser,
+  getAnyPlace,
 
 };
