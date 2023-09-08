@@ -88,7 +88,7 @@ function Wishlist() {
         <div className="main">
           <div>
            
-            <div className="overflow-y-auto" style={{ maxHeight: '100%', overflow: 'hidden' }}>
+          <div className="overflow-y-auto overflow-hidden h-[700px]" >
               {Array.from(new Set(filteredPlaces.map((place) => place.placeName)))
                 .map((placeName) => (
                   <div key={placeName}>
