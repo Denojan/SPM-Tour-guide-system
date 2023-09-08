@@ -64,6 +64,12 @@ function Wishlist() {
     window.open(url, '_blank');
   };
 
+  const handleVideo = (videoName) => {
+    const encodedVideoName = encodeURIComponent(videoName);
+    const url = `https://www.youtube.com/results?search_query=${encodedVideoName}`;
+    window.open(url, '_blank');
+  };
+
   // Filter places based on the search query
   const filteredPlaces = placesData.filter((place) =>
     place.placeName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -161,6 +167,14 @@ function Wishlist() {
                                 onClick={() => handleVist(place)}
                               >
                                 visit
+                              </button>
+
+                              <button
+                                type="button"
+                                className="text-white bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2"
+                                onClick={() => handleVideo(place.placeName2)}
+                              >
+                                Learn more
                               </button>
                             </div>
                           </div>
