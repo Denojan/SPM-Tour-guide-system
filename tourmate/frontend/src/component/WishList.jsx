@@ -65,7 +65,6 @@ function Wishlist() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <NavBar />
       <div className="flex flex-col items-center">
         <h1
           className="text-6xl font-bold mb-4 mt-4"
