@@ -15,7 +15,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Register from "./component/Register";
 import Login from "./component/Login";
-<<<<<<< HEAD
 
 import Footer from "./component/Footer";
 import DisplayHiddenSpecific from "./component/DisplayHiddenSpecific";
@@ -27,22 +26,6 @@ import UpdatePlace from "./component/UpdatePlace";
 import RequireAuth from "./component/RequireAuth";
 import PersistLogin from "./component/PersistLogin";
 import Unauthorized from "./component/Unauthorized";
-
-const ROLES = {
-  User: 2000,
-  Admin: 5150,
-};
-
-=======
-import RequireAuth from "./component/RequireAuth";
-import PersistLogin from "./component/PersistLogin";
-import Unauthorized from "./component/Unauthorized";
-import Footer from "./component/Footer";
-import DisplayHiddenSpecific from "./component/DisplayHiddenSpecific";
-import Profile from "./component/Profile";
-import DisplayAllHidden from "./component/DisplayAllHidden";
-import UpdatePlace from "./component/UpdatePlace";
->>>>>>> 770ded3bc227715355ebfd840ff172c0153d59f4
 
 const ROLES = {
   User: 2000,
@@ -72,7 +55,7 @@ function App() {
 
         <Route path="/searchPlaces" element={<SearchPlaces />} />
         <Route path="/wishList" element={<WishList />} />
-        <Route path="/updateNote" element={<UpdateNote/>}/>
+        <Route path="/updateNote/:placeName" element={<UpdateNote/>}/>
        
      
         <Route path="/displayhidden" element={<DisplayHiddenSpecific />} />

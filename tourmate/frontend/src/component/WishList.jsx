@@ -7,7 +7,13 @@ import { CgNotes } from 'react-icons/cg';
 
 function Wishlist() {
   const [placesData, setPlacesData] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(""); // State for search query
+  const [searchQuery, setSearchQuery] = useState("");
+  const [overLay, setOverLay] = useState(false);
+
+  const [isEditing, setIsEditing] = useState(true); 
+  const [editingNote, setEditingNote] = useState("");
+  const [target, setTarget] = useState("");
+  const [targetDetails, setTargetDetails] = useState({});
 
   useEffect(() => {
     const apiUrl = "http://localhost:8080/wishlist/getWishlist/user2";
@@ -74,6 +80,43 @@ function Wishlist() {
     place.placeName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+
+  const getNote = async (placeName) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/wishlist/getNote/${placeName}`);
+      getNote(response.data.note);
+      setEditingNote(response.data.note);
+    } catch (error) {
+      console.error("Error fetching note:", error);
+    }
+  };
+
+
+
+
+
+  const handleNoteUpdate = async () => {
+    // Call the getNote function here
+    await getNote();
+    
+    try {
+      await axios.put(`http://localhost:8080/wishlist/updateWishList/${target}`, { note: editingNote });
+      setIsEditing(false);
+
+      toast.success("Note updated", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+
+      setTimeout(() => {
+        window.location.href = "/wishList";
+      }, 2000);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+
+
   return (
     <div className="flex flex-col min-h-screen">
       <div className="flex flex-col items-center">
@@ -98,8 +141,8 @@ function Wishlist() {
 
         <div className="main">
           <div>
-           
-          <div className="overflow-y-auto overflow-hidden h-[700px]" >
+
+            <div className="overflow-y-auto overflow-hidden h-[700px]" >
               {Array.from(new Set(filteredPlaces.map((place) => place.placeName)))
                 .map((placeName) => (
                   <div key={placeName}>
@@ -121,18 +164,20 @@ function Wishlist() {
                           >
                             + Add New Place
                           </button>
-                        </Link>
-                        
 
-                        <Link to="/updateNote">
-                        <button type="button"
-                     
-                        >
+                        </Link>
+
+
+                        <Link to={`/updateNote/${placeName}`}>
+                        <button type="button" onClick={() => {setOverLay(true); setTarget(placeName)}}>
                           <CgNotes style={{ fontSize: '2.3rem' }} title="Note" />
                           {/* Note */}
                         </button>
-
                         </Link>
+
+
+
+
                       </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -189,7 +234,43 @@ function Wishlist() {
           </div>
         </div>
       </div>
+
+      {overLay && (
+        <div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+        <div class="w-full h-full bg-black p-8 flex items-center justify-center">
+      
+          <form class="flex flex-col items-center">
+            <div class="mb-6">
+              <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Personal Note</label>
+              <textarea
+                id="email"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[500px] p-2.5 h-40 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value={editingNote}
+                onChange={(e) => setEditingNote(e.target.value)}
+              ></textarea>
+            </div>
+            <div class="flex justify-between items-center">
+              <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm flex-grow px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              onClick={handleNoteUpdate}>Submit</button>
+              <button type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm flex-grow px-5 py-2.5 text-center ml-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"  
+              onClick={() => setOverLay(false)}>Cancel</button>
+            </div>
+          </form>
+      
+        </div>
+      </div>
+      
+
+
+      )
+      }
+
+
+
     </div>
+
+
+
   );
 }
 
