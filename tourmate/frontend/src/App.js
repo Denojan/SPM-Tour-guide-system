@@ -1,6 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AddFavPlace from "./component/AddFavPlace";
 import DisplayFavPlace from "./component/DisplayFavPlace";
+import Experience from "./component/Experience";
+import CreateExperience from "./component/CreateExperience";
+import UpdateExperience from "./component/UpdateExperience";
 
 import SearchPlaces from "./component/SearchPlaces";
 import WishList from "./component/WishList";
@@ -13,6 +16,13 @@ import "react-toastify/dist/ReactToastify.css";
 import Register from "./component/Register";
 import Login from "./component/Login";
 
+import Footer from "./component/Footer";
+import DisplayHiddenSpecific from "./component/DisplayHiddenSpecific";
+import Profile from "./component/Profile";
+import DisplayAllHidden from "./component/DisplayAllHidden";
+import UpdatePlace from "./component/UpdatePlace";
+
+
 import RequireAuth from "./component/RequireAuth";
 import PersistLogin from "./component/PersistLogin";
 import Unauthorized from "./component/Unauthorized";
@@ -21,14 +31,6 @@ const ROLES = {
   User: 2000,
   Admin: 5150,
 };
-
-import Footer from "./component/Footer";
-import DisplayHiddenSpecific from "./component/DisplayHiddenSpecific";
-import Profile from "./component/Profile";
-import DisplayAllHidden from "./component/DisplayAllHidden";
-import UpdatePlace from "./component/UpdatePlace";
-
-
 
 
 function App() {
@@ -45,11 +47,15 @@ function App() {
 
         <Route path="/addfavplace" element={<AddFavPlace />} />
         <Route path="/displayfav" element={<DisplayFavPlace />} />
+          
+        <Route path="/Exp" element={<Experience />} />
+        <Route path="/addExp" element={<CreateExperience />} />
+        <Route path="/updateExp/:id" element={<UpdateExperience />} />
+
 
         <Route path="/searchPlaces" element={<SearchPlaces />} />
         <Route path="/wishList" element={<WishList />} />
-        <Route path="/navbar"  element={<NavBar/>}/>
-        <Route path="/updateNote" element={<UpdateNote/>}/>
+        <Route path="/updateNote/:placeName" element={<UpdateNote/>}/>
        
      
         <Route path="/displayhidden" element={<DisplayHiddenSpecific />} />
