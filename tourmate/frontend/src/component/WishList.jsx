@@ -4,6 +4,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { CgNotes } from 'react-icons/cg';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 function Wishlist() {
   const [placesData, setPlacesData] = useState([]);
@@ -28,21 +30,25 @@ function Wishlist() {
   }, []);
 
   const removeWishlist = (placeName) => {
-    const deleteUrl = `http://localhost:8080/wishlist/deleteWishList/${placeName}`;
-
-    axios
-      .delete(deleteUrl)
-      .then(() => {
-        setPlacesData((prevData) =>
-          prevData.filter((place) => place.placeName !== placeName)
-        );
-        toast.success(`Removed ${placeName} from wishlist.`);
-      })
-      .catch((error) => {
-        console.error("Error removing package:", error);
-        toast.error(`Error removing ${placeName} from wishlist.`);
-      });
+    const confirmed = window.confirm(`Are you sure you want to remove ${placeName} from your wishlist?`);
+    if (confirmed) {
+      const deleteUrl = `http://localhost:8080/wishlist/deleteWishList/${placeName}`;
+  
+      axios
+        .delete(deleteUrl)
+        .then(() => {
+          setPlacesData((prevData) =>
+            prevData.filter((place) => place.placeName !== placeName)
+          );
+          toast.success(`Removed ${placeName} from wishlist.`);
+        })
+        .catch((error) => {
+          console.error("Error removing package:", error);
+          toast.error(`Error removing ${placeName} from wishlist.`);
+        });
+    }
   };
+  
 
   const handleDeleteClick = async (placeId) => {
     const confirmed = window.confirm(
@@ -92,9 +98,6 @@ function Wishlist() {
   };
 
  
-
-
-
   const handleNoteUpdate = async () => {
     // Call the getNote function here
     await getNote();
@@ -114,18 +117,68 @@ function Wishlist() {
       console.error(error);
     }
   };
+
+
+
+
+  const generatePDFReport = () => {
+
+    const doc = new jsPDF();
+  
+
+    const currentDate = new Date();
+    const currentMonth = currentDate.toLocaleString("default", { month: "long" });
+  
+  
+    const title = `My Planned Trip List in ${currentMonth}`;
+  
+ 
+    doc.text(title, doc.internal.pageSize.width / 2, 10, "center");
+  
+  
+    const data = [];
+    filteredPlaces.forEach((place) => {
+      data.push([
+        place.placeName,
+        place.placeName2,
+        place.description,
+       
+      ]);
+    });
+  
+   
+    const headers = [["Destination","Place Name", "Address"]]; 
+  
+   
+    doc.autoTable({
+      startY: 20, 
+      head: headers,
+      body: data,
+      theme: "grid",
+      styles: {
+        halign: "center", 
+      },
+    });
+  
+   
+    doc.save(`MyPlannedTripList_${currentMonth}.pdf`);
+  };
   
 
 
   return (
     <div className="flex flex-col min-h-screen">
+      <button
+        type="button"
+        className="text-gray-900 bg-gradient-to-r from-green-200 via-green-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-100 dark:focus:ring-green-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center absolute top-4 right-4"
+        onClick={generatePDFReport}
+        style={{ marginRight: 'auto' }}
+      >
+        Generate PDF Report
+      </button>
       <div className="flex flex-col items-center">
         <h1
-          className="text-6xl font-bold mb-4 mt-4"
-          style={{
-            fontFamily: 'Brush Script MT, cursive',
-          }}
-        >
+          className="text-6xl font-bold mb-4 mt-4">
           My Trips
         </h1>
 
@@ -138,6 +191,8 @@ function Wishlist() {
             className="border border-gray-300 rounded-lg p-2 mb-4"
           />
         </div>
+
+
 
         <div className="main">
           <div>
@@ -174,10 +229,6 @@ function Wishlist() {
                           {/* Note */}
                         </button>
                         </Link>
-
-
-
-
                       </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -259,18 +310,9 @@ function Wishlist() {
       
         </div>
       </div>
-      
-
-
       )
       }
-
-
-
     </div>
-
-
-
   );
 }
 

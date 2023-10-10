@@ -28,8 +28,13 @@ const wishListSchema = new Schema({
     },
     note:{
       type:String
-    }
+    },
    
-  });
+  }
+  ,
+  {
+    timestamps: true,
+  }
+  );
   
   module.exports = mongoose.model("WishList", wishListSchema);

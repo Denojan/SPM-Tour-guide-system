@@ -3,6 +3,7 @@ import vidBG from "../asserts/vid.mp4";
 import data from "../asserts/data.json"
 import bg from "../asserts/bg.jpg"
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Main() {
   const [key, setkey] = useState("AIzaSyACdwaw1h6cATe6laoMWoayEniMemjgVkE");
@@ -232,13 +233,16 @@ async function addList(place) {
                   Explore
                 </button>
 
+
+                <Link to={`/wishList`}>
                 <button
                   type="button"
                   onClick={rundev}
                   className="text-white w-[100px] h-[40px] ml-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                 >
-                  Test
+                  Cansel
                 </button>
+                </Link>
               </div>
               {/* <h1 className="text-white text-[15px] opacity-60">
                 Dev options: Enter API key (this will be removed in production)
