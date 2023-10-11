@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { CgNotes } from 'react-icons/cg';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+const moment = require("moment");
 
 function Wishlist() {
   const [placesData, setPlacesData] = useState([]);
@@ -119,22 +120,31 @@ function Wishlist() {
   };
 
 
-
-
   const generatePDFReport = () => {
-
     const doc = new jsPDF();
   
-
     const currentDate = new Date();
     const currentMonth = currentDate.toLocaleString("default", { month: "long" });
   
+    // Set document font and color
+    doc.setFont("helvetica");
+    doc.setTextColor("#000000");
   
+    // Add logo and company details to the top-left corner
+    doc.setFontSize(16);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor("#000000");
+    doc.text("TourMate", 20, 20); // Adjust the coordinates as needed
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor("#999999");
+    doc.text("Email: info@tourmate.com", 20, 35);
+    
+  
+    // Add title and date
+    doc.setFontSize(24);
     const title = `My Planned Trip List in ${currentMonth}`;
-  
- 
-    doc.text(title, doc.internal.pageSize.width / 2, 10, "center");
-  
+    doc.text(title, doc.internal.pageSize.width / 2, 70, "center");
   
     const data = [];
     filteredPlaces.forEach((place) => {
@@ -142,27 +152,24 @@ function Wishlist() {
         place.placeName,
         place.placeName2,
         place.description,
-       
       ]);
     });
   
-   
-    const headers = [["Destination","Place Name", "Address"]]; 
+    const headers = [["Destination", "Place Name", "Address"]];
   
-   
     doc.autoTable({
-      startY: 20, 
+      startY: 90, // Adjust the startY position as needed
       head: headers,
       body: data,
       theme: "grid",
       styles: {
-        halign: "center", 
+        halign: "center",
       },
     });
   
-   
     doc.save(`MyPlannedTripList_${currentMonth}.pdf`);
   };
+  
   
 
 
