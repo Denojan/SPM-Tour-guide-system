@@ -26,6 +26,7 @@ import UpdatePlace from "./component/UpdatePlace";
 import RequireAuth from "./component/RequireAuth";
 import PersistLogin from "./component/PersistLogin";
 import Unauthorized from "./component/Unauthorized";
+import Analytics from "./component/Analytics";
 
 const ROLES = {
   User: 2000,
@@ -38,32 +39,27 @@ function App() {
     <Router>
       <NavBar />
       <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-       
-
-
 
         <Route path="/addfavplace" element={<AddFavPlace />} />
         <Route path="/displayfav" element={<DisplayFavPlace />} />
-          
+
         <Route path="/Exp" element={<Experience />} />
         <Route path="/addExp" element={<CreateExperience />} />
         <Route path="/updateExp/:id" element={<UpdateExperience />} />
 
-
         <Route path="/searchPlaces" element={<SearchPlaces />} />
         <Route path="/wishList" element={<WishList />} />
-        <Route path="/updateNote/:placeName" element={<UpdateNote/>}/>
-       
-     
+        <Route path="/updateNote/:placeName" element={<UpdateNote />} />
+
         <Route path="/displayhidden" element={<DisplayHiddenSpecific />} />
         <Route path="/displayallhidden" element={<DisplayAllHidden />} />
         <Route path="/map" element={<Map />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/updateplace/:id" element={<UpdatePlace />} />
-
+        <Route path="/analytics" element={<Analytics />} />
       </Routes>
       <Footer />
     </Router>

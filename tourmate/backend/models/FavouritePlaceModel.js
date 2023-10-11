@@ -42,7 +42,10 @@ const favPlaceSchema = new Schema({
     type: String,
     required: false,
   },
-
+  placeType: {
+    type: String,
+    required: false,
+  },
 });
 
 module.exports = mongoose.model("FavouritePlace", favPlaceSchema);

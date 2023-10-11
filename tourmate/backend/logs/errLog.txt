@@ -33,3 +33,4 @@
 20230914	13:41:46	d59c1ef4-d586-4c5c-83ce-71ab54b57bbe	Error: Not allowed by CORS
 20230914	13:42:40	acaa4315-8799-4db8-84e3-df595cea9994	Error: Not allowed by CORS
 20230914	13:43:22	d532815b-d510-4265-9c02-cdad1b0cc47d	Error: Not allowed by CORS
+20231010	22:26:52	571afa7d-125f-4ffc-86da-ecc86c1971ab	PayloadTooLargeError: request entity too large

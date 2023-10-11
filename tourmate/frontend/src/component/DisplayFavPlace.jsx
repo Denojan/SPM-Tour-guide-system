@@ -133,7 +133,7 @@ function DisplayFavPlace() {
       <div className="relative">
         <img src={slide} className="w-full h-96 object-cover custom-image" />
         <p class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white bg-black text-6xl text-center font-bold bg-opacity-50 px-4 py-2 ">
-        Favourite Places with Your Favourite Memories
+          Favourite Places with Your Favourite Memories
         </p>
 
         <form>
@@ -143,7 +143,7 @@ function DisplayFavPlace() {
           >
             Search
           </label>
-          <div className="relative ml-[36%] mt-[-10%] z-30">
+          <div className="relative ml-[42%] mt-[-10%] z-30">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg
                 className="w-4 ml-10 h-4 text-gray-500 dark:text-gray-400"
@@ -170,7 +170,7 @@ function DisplayFavPlace() {
               required
             />
           </div>
-          <div class=" -mt-[60px] relative ml-[430px] ">
+          <div class=" -mt-[60px] relative ml-[420px] ">
             <select
               id="countries"
               value={filterOption}
@@ -178,10 +178,25 @@ function DisplayFavPlace() {
               class="bg-[#f1f1f1] h-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-15 p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option selected value="All">
-                All
+                All Favouirite Place and Hottel
               </option>
               <option value="Favourite Place">Favourite Place</option>
               <option value="Favourite Hotel">Favourite Hotel</option>
+              <option value="Natural Attractions">Natural Attractions</option>
+              <option value=" Cultural and Historical Sites">
+                Cultural and Historical Sites
+              </option>
+              <option value="Adventure and Outdoor Activities">
+                Adventure and Outdoor Activities
+              </option>
+              <option value="Wildlife and Safari Tours">
+                {" "}
+                Wildlife and Safari Tours
+              </option>
+              <option value="Culinary and Food Tourism">
+                {" "}
+                Culinary and Food Tourism
+              </option>
             </select>
           </div>
         </form>
@@ -194,7 +209,9 @@ function DisplayFavPlace() {
         ) : (
           favoritePlaces
             .filter((r) =>
-              filterOption === "All" ? true : r.category === filterOption
+              filterOption === "All"
+                ? true
+                : r.category === filterOption || r.placeType === filterOption
             )
             .map((place, index) => (
               <div

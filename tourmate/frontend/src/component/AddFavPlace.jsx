@@ -10,6 +10,7 @@ function AddFavPlace() {
   const [visitedDate, setVisitedDate] = useState("");
   const [location, setLocation] = useState("");
   const [contact, setContact] = useState("");
+  const [placeType, setPlaceType] = useState("");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
   const [currentLocation, setCurrentLocation] = useState("");
@@ -65,6 +66,7 @@ function AddFavPlace() {
       description,
       latitude,
       longitude,
+      placeType,
     };
 
     try {
@@ -91,6 +93,7 @@ function AddFavPlace() {
         setDescription("");
         setLatitude("");
         setLongitude("");
+        setPlaceType("")
 
     } catch (error) {
      alert(error.response.data.error)
@@ -242,6 +245,44 @@ function AddFavPlace() {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                       />
+                    </div>
+                    <p className="text-gray-500 text-center text-lg mb-2"></p>
+
+                    <div className="md:col-span-2 text-xl font-semibold">
+                      <label htmlFor="placeType">Place Type</label>
+                      <p className="mb-3"></p>
+                      <select
+                        name="placeType"
+                        required
+                        id="placeType"
+                        onChange={(e) => {
+                          setPlaceType(e.target.value);
+                        }}
+                        class="border py-2 px-3 text-grey-800 w-full text-gray-600 rounded-xl text-base"
+                      >
+                        <option selected disabled hidden>
+                          Choose Type
+                        </option>
+                        <option value=" Natural Attractions">
+                          Natural Attractions
+                        </option>
+                        <option value=" Cultural and Historical Sites">
+                          {" "}
+                          Cultural and Historical Sites
+                        </option>
+                        <option value="Adventure and Outdoor Activities">
+                          {" "}
+                          Adventure and Outdoor Activities
+                        </option>
+                        <option value="Wildlife and Safari Tours">
+                          {" "}
+                          Wildlife and Safari Tours
+                        </option>
+                        <option value="Culinary and Food Tourism">
+                          {" "}
+                          Culinary and Food Tourism
+                        </option>
+                      </select>
                     </div>
                     <p className="text-gray-500 text-center text-lg mb-2"></p>
 
