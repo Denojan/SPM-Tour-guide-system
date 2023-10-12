@@ -4,15 +4,14 @@ const asyncHandler = require('express-async-handler');
 const addExperience = asyncHandler(async (req, res) => {
 console.log(req.body);
  try {
-    const { topic, userName, location, image, description ,ratings,reviews} = req.body;
+    const { topic, userName, location, image, description} = req.body;
     const experience = new Experience({
       topic,
       userName,
       location,
       image,
       description,
-      ratings,
-      reviews
+     
     });
     await experience.save();
     res.status(201).json(experience);
@@ -104,67 +103,6 @@ const deleteExperience = asyncHandler(async (req, res) => {
   }
 });
 
-
-
-/*// search experience by location
-const searchExperienceByLocation = asyncHandler(async (req, res) => {
-  const location = req.params.location;
-
-  const experience = await Experience.findOne({ location: location });
-
-  if (experience) {
-    res.status(200).json(experience);
-  } else {
-    res.status(404).json({ message: "Experience not found" });
-  }
-});
-
-
-
-const addRating = async (req, res) => {
-  try {
-    const { experienceId, rating } = req.body;
-    const experience = await Experience.findById(experienceId);
-    if (!experience) {
-      return res.status(404).json({ error: 'Experience not found' });
-    }
-    experience.ratings.push(rating);
-    await experience.save();
-    res.json(experience);
-  } catch (error) {
-    res.status(500).json({ error: 'An error occurred' });
-  }
-};
-
-const addReview = async (req, res) => {
-  try {
-    const { experienceId, review } = req.body;
-    const experience = await Experience.findById(experienceId);
-    if (!experience) {
-      return res.status(404).json({ error: 'Experience not found' });
-    }
-    experience.reviews.push(review);
-    await experience.save();
-    res.json(experience);
-  } catch (error) {
-    res.status(500).json({ error: 'An error occurred' });
-  }
-};
-
-/*exports.addComment = async (req, res) => {
-  try {
-    const { experienceId, userName, comment } = req.body;
-    const experience = await Experience.findById(experienceId);
-    if (!experience) {
-      return res.status(404).json({ error: 'Experience not found' });
-    }
-    experience.comments.push({ userName, comment });
-    await experience.save();
-    res.json(experience);
-  } catch (error) {
-    res.status(500).json({ error: 'An error occurred' });
-  }
-};*/
 
 
 

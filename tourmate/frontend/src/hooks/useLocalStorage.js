@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const getLocalValue = (key, initValue) => {
-    console.log("uselocalstorage")
+   
     //SSR Next.js 
     if (typeof window === 'undefined') return initValue;
 

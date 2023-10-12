@@ -8,19 +8,19 @@ const PersistLogin = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const refresh = useRefreshToken();
-  const { auth,setAuth } = useAuth();
+  const { auth } = useAuth();
   const [persist] = useLocalStorage('persist', false);
-  const { user, pwd, accessToken } = auth;
+
   useEffect(() => {
     let isMounted = true;
 
     const verifyRefreshToken = async () => {
       try {
-        console.log("1");
+        
         await refresh();
-        console.log("2");
+        
       } catch (err) {
-        console.error(err);
+        
       } finally {
         isMounted && setIsLoading(false);
       }
@@ -30,7 +30,7 @@ const PersistLogin = () => {
       event.preventDefault();
       if (persist && auth?.accessToken) {
         await refresh();
-        // Perform any additional actions if necessary
+        
       }
     };
 
@@ -45,8 +45,7 @@ const PersistLogin = () => {
   }, [persist, auth?.accessToken, refresh]);
 
   useEffect(() => {
-    console.log(`isLoading: ${isLoading}`);
-    console.log(`aT: ${JSON.stringify(auth?.accessToken)}`);
+   
   }, [isLoading, auth?.accessToken]);
 
   if (!persist) {
@@ -54,7 +53,15 @@ const PersistLogin = () => {
   }
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <div class="flex justify-center items-center h-screen bg-slate-600">
+  <div class="inline-block h-16 w-16 animate-spin rounded-full border-8 border-solid border-current border-r-transparent align-middle motion-reduce:animate-[spin_1.5s_linear_infinite]">
+    <span class="absolute -m-px h-px w-px  overflow-hidden whitespace-nowrap border-0 p-0 clip:rect(0,0,0,0)">
+      Loading...
+    </span>
+  </div>
+</div>
+    )
   }
 
   if (!auth?.accessToken) {

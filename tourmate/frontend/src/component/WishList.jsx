@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import bg from "../asserts/bg.jpg";
+import bg from "../assert/bg.jpg";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { CgNotes } from 'react-icons/cg';
+import useAuth from '../hooks/useAuth';
 
 function Wishlist() {
+  const { auth } = useAuth();
+  const { user } = auth;
   const [placesData, setPlacesData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [overLay, setOverLay] = useState(false);
@@ -16,9 +19,18 @@ function Wishlist() {
   const [targetDetails, setTargetDetails] = useState({});
 
   useEffect(() => {
-    const apiUrl = "http://localhost:8080/wishlist/getWishlist/user2";
+    const {  accessToken } = auth;
+    console.log(accessToken);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      withCredentials: true,
+    };
+    const apiUrl = `http://localhost:8080/wishlist/getWishlist/${user}`;
     axios
-      .get(apiUrl)
+      .get(apiUrl,config)
       .then((response) => {
         setPlacesData(response.data.wishlist);
       })
@@ -53,8 +65,17 @@ function Wishlist() {
     }
 
     try {
+      const {  accessToken } = auth;
+        console.log(accessToken);
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+          withCredentials: true,
+        };
       const response = await axios.delete(
-        `http://localhost:8080/wishlist/deletePlace/${placeId}`
+        `http://localhost:8080/wishlist/deletePlace/${placeId}`,config
       );
       console.log("Place deleted:", response.data);
       window.location.reload();
@@ -83,7 +104,17 @@ function Wishlist() {
 
   const getNote = async (placeName) => {
     try {
-      const response = await axios.get(`http://localhost:8080/wishlist/getNote/${placeName}`);
+      const {  accessToken } = auth;
+      console.log(accessToken);
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true,
+      };
+      
+      const response = await axios.get(`http://localhost:8080/wishlist/getNote/${placeName}`,config);
       getNote(response.data.note);
       setEditingNote(response.data.note);
     } catch (error) {
@@ -100,7 +131,16 @@ function Wishlist() {
     await getNote();
     
     try {
-      await axios.put(`http://localhost:8080/wishlist/updateWishList/${target}`, { note: editingNote });
+      const {  accessToken } = auth;
+        console.log(accessToken);
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+          withCredentials: true,
+        };
+      await axios.put(`http://localhost:8080/wishlist/updateWishList/${target}`,config, { note: editingNote });
       setIsEditing(false);
 
       toast.success("Note updated", {

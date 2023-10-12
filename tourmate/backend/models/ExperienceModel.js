@@ -27,14 +27,7 @@ const experienceSchema = new Schema({
     required: [true, "Please add a description"],
   },
 
-  ratings: [{ 
-    type: Number, 
-    default: 0 
-  }],
-
-  reviews: [{ 
-    type: String 
-  }],
+  
 
 });
 

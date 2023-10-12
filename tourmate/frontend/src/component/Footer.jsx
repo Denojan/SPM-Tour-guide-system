@@ -25,7 +25,7 @@ function Footer() {
               <ul class="text-gray-500 dark:text-gray-400 font-medium">
                 <li class="mb-4">
                   <a href="https://flowbite.com/" class="hover:underline">
-                    Flowbite
+                    TourMate
                   </a>
                 </li>
                 <li>
@@ -82,7 +82,7 @@ function Footer() {
           <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
             © 2023{" "}
             <a href="https://flowbite.com/" class="hover:underline">
-              Flowbite™
+              TourMate™
             </a>
             . All Rights Reserved.
           </span>

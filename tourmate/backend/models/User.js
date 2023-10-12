@@ -17,6 +17,13 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    image: {
+        type: String,
+      },
+    roles: {
+        type: Schema.Types.Mixed, // Allow any data type for the roles field
+        required: true,
+      },
     refreshToken: String
 });
 

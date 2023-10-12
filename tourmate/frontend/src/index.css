@@ -2,67 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-.place-image {
-  width: 100%; /* Set the width to 100% to match the card width */
-  height: auto; /* Maintain the aspect ratio of the image */
+.active {
+  background-color: #797979;
+  color: white;
+  outline: 1px solid #2E4960;
+  font-size: 11px;
+}
+
+.link:hover {
+  color: white;
+  background-color: #28333c;
 }
 
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-
-* {
-  margin: 0;
-  padding-left: 10;
-  font-weight: normal;
-}
-
-.main {
-  width: 100%;
-  height: 100vh;
-}
-
-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-}
-
-
-.custom-image {
-  border-radius: 0px 0px 100px 100px; /* top-left, top-right, bottom-right, bottom-left */
-}
-
-.bg-image {
-  background-image: url('assert/back.jpeg'); /* Replace with your image URL */
-  background-size: cover;
-  background-repeat: repeat;
-  background-attachment: fixed; /* This keeps the image fixed while scrolling */
-  opacity: 0.9;
-  /* Other background properties like position, etc. can be added here */
-}

@@ -1,7 +1,7 @@
 import useLocalStorage from "./useLocalStorage";
 
 const useToggle = (key, initValue) => {
-    console.log("use toggle")
+   
     const [value, setValue] = useLocalStorage(key, initValue);
 
     const toggle = (value) => {

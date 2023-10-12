@@ -17,6 +17,11 @@ const handleNewUser = async (req, res) => {
             return res.status(409).json({ 'message': 'Username already exists.' });
         }
 
+        const emailDuplicate = await User.findOne({ email: email });
+        console.log("4");
+        if (emailDuplicate) {
+            return res.status(406).json({ 'message': 'Email already exists.' });
+        }
         if (pwd === matchPwd) {
             const hashedPwd = await bcrypt.hash(pwd, 10);
 
@@ -24,7 +29,9 @@ const handleNewUser = async (req, res) => {
             const result = await User.create({
                 username: user,
                 password: hashedPwd,
-                email: email
+                email: email,
+                roles: {User:2001},
+                image:null
             });
 
             res.status(201).json({ 'success': `New user ${user} created!` });

@@ -111,10 +111,10 @@ function Register() {
       if (!err?.response) {
         toast.error('No Server Response');
       } else if (err.response?.status === 409) {
-        toast.error('Username Taken. Please Login');
-      } else if (err.response?.status === 404) {
-        toast.error('You are not authorized person');
-      }  else if (err.response?.status === 401) {
+        toast.error('Username Taken. Try another name or Please Login');
+      } else if (err.response?.status === 406) {
+        toast.error('Email is already registered.');
+      } else if (err.response?.status === 401) {
         toast.error('Password mismatching');
       }else {
         toast.error('Registration Failed');
@@ -149,15 +149,23 @@ function Register() {
         </section>
       ) : (
         <section>
-          <div className="flex items-center justify-center h-screen">
-            <div className="relative w-[822px] h-[662px] bg-teal-900 rounded-[65px] flex justify-center">
-              <div
-                className="absolute left-0 top-0 w-[417px] h-[662px] bg-no-repeat opacity-20 rounded-[65px]"
-                style={{
-                  backgroundImage: `url(${logo})`,
-                  backgroundSize: 'cover',
-                }}
-              ></div>
+          <div className="flex items-center justify-center h-full bg-white">
+          <div
+  className="absolute mx-auto inset-0 flex items-center bg-no-repeat opacity-80 "
+  style={{
+    backgroundImage: `url(${logo})`,
+    backgroundSize: "cover",
+  }}
+></div>
+<div
+  className="absolute mx-auto inset-0 flex items-center justify-center w-[700px] h-[650px] bg-no-repeat bg-slate-500 rounded-[65px] opacity-90 mt-8"
+  style={{
+   // backgroundImage: `url(${logo})`,
+    backgroundSize: "cover",
+  }}
+></div>
+            <div className="relative w-[822px] h-[662px] rounded-[65px] flex justify-center">
+              
               <div className="relative flex flex-col items-center justify-center h-full  ">
                 <h1 className="text-white text-4xl font-bold mb-10">Create an Account</h1>
                 <form className="flex flex-col items-center " onSubmit={handleSubmit}>
@@ -170,6 +178,17 @@ function Register() {
                        setUser(e.target.value);
                     }}
                   />
+                   <div className="ml-[10px] text-sm text-red-800">
+                  {user.length > 0 && (
+                    <>
+                      {user.length < 4 && (
+                        <div>
+                        - Password should be at least 4 characters long.
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
                   <input
                className="w-72 h-12 px-4 mb-5 rounded"
                required
@@ -227,6 +246,43 @@ function Register() {
                   )}
                 </button>
               </div>
+              <div className="ml-[120px] text-sm text-red-800">
+                  {pwd.length > 0 && (
+                    <>
+                      {pwd.length < 8 && (
+                        <div>
+                          - Password should be at least 8 characters long.
+                        </div>
+                      )}
+                      {!/[a-z]/.test(pwd) && (
+                        <div>
+                          - Password should contain at least one lowercase
+                          letter.
+                        </div>
+                      )}
+                      {!/[A-Z]/.test(pwd) && (
+                        <div>
+                          - Password should contain at least one uppercase
+                          letter.
+                        </div>
+                      )}
+                      {!/[0-9]/.test(pwd) && (
+                        <div>- Password should contain at least one digit.</div>
+                      )}
+                      {!/[!@#$%]/.test(pwd) && (
+                        <div>
+                          - Password should contain at least one special
+                          character (!@#$%).
+                        </div>
+                      )}
+                      {pwd.length > 24 && (
+                        <div>
+                          - Password should be at most 24 characters long.
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
               <div className="relative">
                 <input
                   type={reshowPassword ? 'text' : 'password'} // Update input type based on showPassword state
@@ -272,13 +328,49 @@ function Register() {
                   )}
                 </button>
               </div>
-                  
+              <div className="ml-[120px] text-sm text-red-800">
+                  {matchPwd.length > 0 && (
+                    <>
+                      {matchPwd.length < 8 && (
+                        <div>
+                          - Password should be at least 8 characters long.
+                        </div>
+                      )}
+                      {!/[a-z]/.test(matchPwd) && (
+                        <div>
+                          - Password should contain at least one lowercase
+                          letter.
+                        </div>
+                      )}
+                      {!/[A-Z]/.test(matchPwd) && (
+                        <div>
+                          - Password should contain at least one uppercase
+                          letter.
+                        </div>
+                      )}
+                      {!/[0-9]/.test(matchPwd) && (
+                        <div>- Password should contain at least one digit.</div>
+                      )}
+                      {!/[!@#$%]/.test(matchPwd) && (
+                        <div>
+                          - Password should contain at least one special
+                          character (!@#$%).
+                        </div>
+                      )}
+                      {pwd.length > 24 && (
+                        <div>
+                          - Password should be at most 24 characters long.
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
                   <button className="w-32 h-10 bg-[#E65F2B] text-white font-bold rounded">
                     Create Account
                   </button>
                 </form>
                 {errMsg && <p className="text-red-500 mt-4">{errMsg}</p>}
-                <h6 className="text-white text-sm mt-4 ">
+                <h6 className="text-white text-sm mt-8 mb-8">
                   Already have an account <a className="text-[#E65F2B]" href="/login">Login</a>
                 </h6>
               </div>

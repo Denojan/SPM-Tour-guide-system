@@ -248,10 +248,13 @@ const getAllLocationPlaces = async (req, res) => {
     // Perform a radius-based search using $geoWithin and $centerSphere
     const places = await favouritePlace.find({
       userId: userId,
-      location: {
-        $geoWithin: {
-          $centerSphere: [[parseFloat(lon), parseFloat(lat)], radiusInRadians],
-        },
+      latitude: {
+        $gte: parseFloat(lat) - (10000 / 111325), // Latitude degrees per meter
+        $lte: parseFloat(lat) + (10000 / 111325), // Latitude degrees per meter
+      },
+      longitude: {
+        $gte: parseFloat(lon) - (10000 / 111325), // Latitude degrees per meter
+        $lte: parseFloat(lon) + (10000 / 111325), // Latitude degrees per meter
       },
     });
     console.log("s");

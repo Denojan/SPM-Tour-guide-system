@@ -4,33 +4,30 @@ const usersController = require("../../controller/usersController");
 const ROLES_LIST = require("../../config/roles_list");
 const verifyRoles = require("../../middleware/verifyRoles");
 
-router
-  .route("/")
-  .delete(verifyRoles(ROLES_LIST.Admin), usersController.deleteUser);
+router.delete('/deleteUser/:user', usersController.deleteUser);
+router.delete('/removeUserImage/:user', usersController.removeUserImage);
+// router
+//   .route("/")
+//   .get(
+//     verifyRoles(ROLES_LIST.User),
+//     usersController.getAllUsers
+//   )
+//   .delete(verifyRoles(ROLES_LIST.User), usersController.deleteUser);
 
-router
-  .route("/")
-  .get(
-    verifyRoles(ROLES_LIST.Admin),
-    usersController.getAllUsers
-  )
-  .delete(verifyRoles(ROLES_LIST.Admin), usersController.deleteUser);
+router.get('/getUser/:username',usersController.getUser);
 
-router
-  .route("/:id")
-  .get(
-    verifyRoles(ROLES_LIST.Admin, ROLES_LIST.User),
-    usersController.getUser
-  );
+router.put('/updateUsername/:user',usersController.updateUsername);
+router.put('/updateUserpass/:user',usersController.updateUserpass);
+router.put('/updateUserimage/:user',usersController.updateUserimage);
+router.put('/updateUserEmail/:user',usersController.updateUserEmail);
 
-router
-  .route("/:eid")
-  .put(
-    verifyRoles(
-      ROLES_LIST.Admin,
-      ROLES_LIST.User
-    ),
-    usersController.updateUser
-  );
+// router
+//   .route("/getUser/:username")
+//   .get(
+//     verifyRoles(ROLES_LIST.User),
+//     usersController.getUser
+//   );
+
+
 
 module.exports = router;
