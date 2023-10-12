@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import vidBG from "../asserts/vid.mp4";
-import data from "../asserts/data.json"
-import bg from "../asserts/bg.jpg"
+import vidBG from "../../assert/vid.mp4";
+import data from "../../assert/data.json"
+import bg from "../../assert/bg.jpg"
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 function Main() {
   const [key, setkey] = useState("AIzaSyACdwaw1h6cATe6laoMWoayEniMemjgVkE");
@@ -35,6 +36,9 @@ async function addList(place) {
 
   if (locationExists) {
     const message = "Place with the same location is already added.";
+    // toast.error(message, {
+    //   position: toast.POSITION.TOP_RIGHT,
+    // });
     alert(message); // Show an alert with the message
     return message; // Return a message indicating the result.
   }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import bg from "../asserts/bg.jpg";
+import bg from "../../assert/bg.jpg";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
@@ -158,7 +158,7 @@ function Wishlist() {
     const headers = [["Destination", "Place Name", "Address"]];
   
     doc.autoTable({
-      startY: 90, // Adjust the startY position as needed
+      startY: 90, 
       head: headers,
       body: data,
       theme: "grid",
