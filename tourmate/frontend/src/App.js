@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Test from "./component/Test";
 import NavBar from "./component/NavBar";
 import Home from "./component/Home";
+import UnHome from "./component/UnHome";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Register from "./component/Register";
@@ -41,7 +42,8 @@ function App() {
     <>
     <NavBar />
     <Routes>
-    <Route path="/" element={<Home />} />
+    <Route path="/" element={<UnHome />} />
+    
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
    
@@ -60,7 +62,7 @@ function App() {
         <Route element={<PersistLogin />}>
           
         <Route path="myProfile" element={<Profile />} />
-                
+        <Route path="/:user" element={<Home />} />
                 <Route path="updateUserpass/:user" element={<UpdatePassword />} />
                 <Route path="/displayfav/:user" element={<DisplayFavPlace />} />
                 <Route path="/displayhidden/:userId" element={<DisplayHiddenSpecific />} />
@@ -75,7 +77,7 @@ function App() {
        <Route path="/addExp/:user" element={<CreateExperience />} />
        <Route path="/updateExp/:id" element={<UpdateExperience />} />
        <Route path="/displayallhidden/:user" element={<DisplayAllHidden />} />
-       <Route path="/:user" element={<Home />} />
+       
        <Route path="/map/:user" element={<Map />} />
                 {/* <Route path="departments" element={<AgDepartment />} />
                 <Route path="allemployee/:id" element={<AllEmployee />} />
