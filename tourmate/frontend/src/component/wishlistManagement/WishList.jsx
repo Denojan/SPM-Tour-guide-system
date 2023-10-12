@@ -201,10 +201,10 @@ function Wishlist() {
 
 
 
-        <div className="main">
+        {/* <div className="main"> */}
           <div>
 
-            <div className="overflow-y-auto overflow-hidden h-[700px]" >
+            {/* <div className="overflow-y-auto overflow-hidden h-[700px]" > */}
               {Array.from(new Set(filteredPlaces.map((place) => place.placeName)))
                 .map((placeName) => (
                   <div key={placeName}>
@@ -288,11 +288,11 @@ function Wishlist() {
                     />
                   </div>
                 ))}
-            </div>
+            {/* </div> */}
           </div>
-        </div>
+        {/* </div> */}
       </div>
-
+{/* 
       {overLay && (
         <div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
         <div class="w-full h-full bg-black p-8 flex items-center justify-center">
@@ -318,7 +318,7 @@ function Wishlist() {
         </div>
       </div>
       )
-      }
+      } */}
     </div>
   );
 }
