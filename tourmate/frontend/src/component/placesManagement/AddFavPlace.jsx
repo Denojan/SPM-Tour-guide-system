@@ -19,8 +19,6 @@ function AddFavPlace() {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
-
-
   const initializeGeolocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -56,6 +54,11 @@ function AddFavPlace() {
 
   async function addPlace(event) {
     event.preventDefault();
+
+    if (description.length > 300) {
+      toast.error("Description cannot exceed 200 characters");
+      return; // Exit the function without adding data
+    }
 
     const newPlace = {
       placeName,
@@ -105,17 +108,35 @@ function AddFavPlace() {
     }
   }
 
-   
-  function convertToBase64(e) {
-    var reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => {
-      setImage(reader.result);
-    };
-    reader.onerror = (error) => {
-      console.log("Error:", error);
-    };
-  }
+ function convertToBase64(e) {
+   const selectedFile = e.target.files[0];
+
+   // Check if a file was selected
+   if (!selectedFile) {
+     return;
+   }
+
+   // Check if the selected file type is valid (jpg, jpeg, or png)
+   if (
+     selectedFile.type === "image/jpeg" ||
+     selectedFile.type === "image/jpg" ||
+     selectedFile.type === "image/png"
+   ) {
+     // File type is valid, proceed with converting to base64
+     var reader = new FileReader();
+     reader.readAsDataURL(selectedFile);
+     reader.onload = () => {
+       setImage(reader.result);
+     };
+     reader.onerror = (error) => {
+       console.log("Error:", error);
+     };
+   } else {
+     // File type is not valid
+     toast.error("Please select a valid image file (jpg, jpeg, or png).");
+   }
+ }
+
 
     const containerStyle = {
       backgroundImage: `url(${slide})`, 
@@ -299,7 +320,7 @@ function AddFavPlace() {
                         id="image"
                         onChange={convertToBase64}
                         className="h-10 mt-1 w-full bg-gray-50 text-base"
-                        accept="image/*"
+                        accept=".jpg, .jpeg, .png"
                       />
                       {image && (
                         <img
@@ -327,7 +348,6 @@ function AddFavPlace() {
           </div>
         </div>
       </div>
-      
     </>
   );
 

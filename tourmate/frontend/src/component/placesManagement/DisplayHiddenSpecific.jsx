@@ -75,16 +75,18 @@ function DisplayHiddenSpecific() {
 
   const handleTextSearch = (e) => {
     const searchTerm = e.currentTarget.value;
-    axios.get(`http://localhost:8080/favplace/getallplaces/${userId}`).then((res) => {
-      if (res.data.place) {
-        filterContent(res.data.place, searchTerm);
-      }
-    });
+    axios
+      .get(`http://localhost:8080/favplace/gethiddenspecific/${userId}`)
+      .then((res) => {
+        if (res.data.place) {
+          filterContent(res.data.place, searchTerm);
+        }
+      });
   };
 
   function filterContent(place, searchTerm) {
     const result = place.filter((r) =>
-      r.placeName.toLowerCase().includes(searchTerm.toLowerCase())
+      r.location.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFavoritePlaces(result);
   }

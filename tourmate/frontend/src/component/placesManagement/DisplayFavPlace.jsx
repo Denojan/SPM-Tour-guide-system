@@ -134,7 +134,7 @@ function DisplayFavPlace() {
 
   function filterContent(place, searchTerm) {
     const result = place.filter((r) =>
-      r.placeName.toLowerCase().includes(searchTerm.toLowerCase())
+      r.location.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFavoritePlaces(result);
   }
