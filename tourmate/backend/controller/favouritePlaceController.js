@@ -124,21 +124,21 @@ const addFavPlace = async (req, res) => {
    // If a place with the same location and name exists, return an error message
    return res
      .status(400)
-     .json({ error: "Place already exists as a favourite" });
+     .json({ exsisterror: "Place already exists as a favourite" });
  }
 
  if (existingHiddenPlace && req.body.category == "Hidden Place") {
    // If a place with the same location and name exists, return an error message
    return res
      .status(400)
-     .json({ error: "Place already exists Inside Hidden Places" });
+     .json({ exsisterror: "Place already exists Inside Hidden Places" });
  }
 
  if (existingFavouriteHottel && req.body.category == "Favourite Hottel") {
    // If a place with the same location and name exists, return an error message
    return res
      .status(400)
-     .json({ error: "Hottel already exists as a favourite" });
+     .json({ exsisterror: "Hottel already exists as a favourite" });
  }
 
 
@@ -319,15 +319,17 @@ const getPlaceTypeCount = async (req, res) => {
           count: { $sum: 1 },
         },
       },
+      {
+        $sort: { count: -1 }, // Sort in descending order by count
+      },
     ]);
 
-    const result = {};
-
-    categoryCounts.forEach((item) => {
-      result[item._id] = item.count;
-    });
-
-    res.status(200).json(result);
+    if (categoryCounts.length > 0) {
+      const mostCommonCategory = categoryCounts[0]._id;
+      res.status(200).json({ mostCommonCategory });
+    } else {
+      res.status(200).json({ mostCommonCategory: "No data available" });
+    }
   } catch (error) {
     console.error("An error occurred:", error);
     res.status(500).json({
@@ -336,6 +338,7 @@ const getPlaceTypeCount = async (req, res) => {
     });
   }
 };
+
 
 
 

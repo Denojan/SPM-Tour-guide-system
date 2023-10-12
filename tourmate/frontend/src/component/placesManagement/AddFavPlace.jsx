@@ -60,6 +60,38 @@ function AddFavPlace() {
       return; // Exit the function without adding data
     }
 
+    if (!placeName) {
+      toast.error("Place Name is required.");
+      return;
+    }
+
+     if (!category) {
+       toast.error("Category is required.");
+       return;
+     }
+
+      if (!currentLocation && !location) {
+        toast.error("Location is required.");
+        return;
+      }
+
+       if (!visitedDate) {
+         toast.error("Visited Date is required.");
+         return;
+       }
+
+       
+       if (!placeType) {
+         toast.error("Place Type is required.");
+         return;
+       }
+
+
+   if (!image || !isImageTypeValid(image)) {
+     toast.error("Please select a valid image file (jpg, jpeg, or png).");
+     return;
+   }
+
     const newPlace = {
       placeName,
       userId: "user1",
@@ -88,24 +120,46 @@ function AddFavPlace() {
       );
       console.log("Favorite place added:", response.data);
 
-        setPlaceName("");
-        setUserId("");
-        setCategory("");
-        setVisitedDate("");
-        setLocation("");
-        setContact("");
-        setImage("");
-        setDescription("");
-        setLatitude("");
-        setLongitude("");
-        setPlaceType("")
-         toast.success("Place SuccessFully Added", {
-           autoClose: 2000, // Display for 3 seconds
-         });
-   window.location.reload();
+      setPlaceName("");
+      setUserId("");
+      setCategory("");
+      setVisitedDate("");
+      setLocation("");
+      setContact("");
+      setImage("");
+      setDescription("");
+      setLatitude("");
+      setLongitude("");
+      setPlaceType("");
+      toast.success("Place SuccessFully Added", {
+        autoClose: 2000, // Display for 3 seconds
+      });
+      window.location.reload();
     } catch (error) {
-     alert(error.response.data.error)
+      if (error.response && error.response.data) {
+        if (error.response.data.error) {
+          toast.error(error.response.data.error);
+        }
+        if (error.response.data.exsisterror) {
+          toast.error(error.response.data.exsisterror);
+        }
+        else{
+            toast.error(error.response);
+        }
+      } else {
+        toast.error("An error occurred while adding the place.");
+      }
+      console.log(error.response.data.error);
     }
+
+    function isImageTypeValid(image) {
+  return (
+    image.startsWith("data:image/jpeg") ||
+    image.startsWith("data:image/jpg") ||
+    image.startsWith("data:image/png")
+  );
+    }
+
   }
 
  function convertToBase64(e) {
@@ -224,6 +278,7 @@ function AddFavPlace() {
                           className="h-10 border mt-1 rounded px-4 w-full text-gray-600 bg-gray-50 text-base"
                           value={currentLocation || location}
                           onChange={(e) => setLocation(e.target.value)}
+                          required
                         />
                         <button
                           className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded text-base"
@@ -234,8 +289,7 @@ function AddFavPlace() {
                       </div>
                     </div>
                     <p className="text-gray-500 text-center text-lg mb-2"></p>
-
-                    <div className="md:col-span-2  text-xl font-semibold">
+                    <div className="md:col-span-2 text-xl font-semibold">
                       <label htmlFor="contact">Contact</label>
                       <input
                         type="text"
@@ -243,9 +297,18 @@ function AddFavPlace() {
                         id="contact"
                         className="h-10 border mt-1 rounded px-4 w-full text-gray-600 bg-gray-50 text-base"
                         value={contact}
-                        onChange={(e) => setContact(e.target.value)}
+                        onChange={(e) => {
+                          // Use a regular expression to validate input
+                          const input = e.target.value;
+                          const isValid = /^\+?\d*$/g.test(input); // Allows positive numbers with a + symbol or empty
+
+                          if (isValid) {
+                            setContact(input);
+                          }
+                        }}
                       />
                     </div>
+
                     <p className="text-gray-500 text-center text-lg mb-2"></p>
 
                     <div className="md:col-span-2  text-xl font-semibold">
@@ -320,7 +383,6 @@ function AddFavPlace() {
                         id="image"
                         onChange={convertToBase64}
                         className="h-10 mt-1 w-full bg-gray-50 text-base"
-                        accept=".jpg, .jpeg, .png"
                       />
                       {image && (
                         <img

@@ -11,8 +11,9 @@ function Analytics() {
   const [Places, setPlaces] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+   const [placeType, setPlaceType] = useState({});
   const [placeCount,setPlaceCount] = useState({});
-  const userid = "user2";
+  const userid = "user1";
 
   useEffect(() => {
     fetchPlaces();
@@ -49,7 +50,7 @@ function Analytics() {
          );
      
          setPlaceCount(response.data)
-         console.log(placeCount)
+      
       
         
        } catch (error) {
@@ -59,6 +60,25 @@ function Analytics() {
 
    fetchPlaceCount();
    }, []);
+
+      useEffect(() => {
+        async function fetchPlaceType() {
+          try {
+            const response = await axios.get(
+              `http://localhost:8080/favplace/getplacetypecount/${userid}`
+            );
+
+           setPlaceType(response.data);
+           console.log(response.data)
+          
+          } catch (error) {
+            console.error("Error fetching most visited Place Type:", error);
+          }
+        }
+
+        fetchPlaceType();
+      }, []);
+
 
 
   const filterPlacesByDate = () => {
@@ -129,7 +149,7 @@ function Analytics() {
     doc.save("TravelReport.pdf");
 
      toast.success("PDF Downloaded", {
-       autoClose: 2000, // Display for 3 seconds
+       autoClose: 2000, // Display for 2 seconds
      });
   };
 
@@ -170,8 +190,8 @@ function Analytics() {
           </p>
         </div>
         <div className="w-1/3 p-4 bg-gray-100 shadow-md rounded">
-          <p className="text-3xl font-semibold text-center text-gray-800">
-            {placeCount.FavouriteHotel ?? 0}
+          <p className="text-xl font-semibold text-center text-gray-800 mt-2">
+            {placeType.mostCommonCategory ?? "0"}
           </p>
           <p className="text-lg text-center pt-2 text-gray-500">
             Most Visited Category
@@ -226,6 +246,7 @@ function Analytics() {
                 <th className="w-1/4 py-3 px-6 text-left">Place Name</th>
                 <th className="w-1/4 py-3 px-6 text-left">Location</th>
                 <th className="w-1/4 py-3 px-6 text-left">Category</th>
+                <th className="w-1/4 py-3 px-6 text-left">Place Type</th>
                 <th className="w-1/4 py-3 px-6 text-left">Visited Date</th>
               </tr>
             </thead>
@@ -243,6 +264,9 @@ function Analytics() {
                   </td>
                   <td className="w-1/4 py-3 px-6 text-left">
                     {place.category}
+                  </td>
+                  <td className="w-1/4 py-3 px-6 text-left">
+                    {place.placeType}
                   </td>
                   <td className="w-1/4 py-3 px-6 text-left">
                     {place.visitedDate}

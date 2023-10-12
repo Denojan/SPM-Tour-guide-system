@@ -59,6 +59,41 @@ function UpdatePlace() {
   async function UpdateData(e) {
     e.preventDefault();
 
+     if (newPlaceType.length > 300) {
+       toast.error("Description cannot exceed 200 characters");
+       return; // Exit the function without adding data
+     }
+
+     if (!newPlaceName) {
+       toast.error("Place Name is required.");
+       return;
+     }
+
+     if (!newCategory) {
+       toast.error("Category is required.");
+       return;
+     }
+
+     if (!currentLocation && !newLocation) {
+       toast.error("Location is required.");
+       return;
+     }
+
+     if (!newVisitedDate) {
+       toast.error("Visited Date is required.");
+       return;
+     }
+
+     if (!newPlaceType) {
+       toast.error("Place Type is required.");
+       return;
+     }
+
+     if (!newImage || !isImageTypeValid(newImage)) {
+       toast.error("Please select a valid image file (jpg, jpeg, or png).");
+       return;
+     }
+
     try {
       const updatePlace = {
         newPlaceName,
@@ -81,21 +116,47 @@ function UpdatePlace() {
       });
       setTimeout(() => (window.location.href = `/displayfav`), 1000);
     } catch (err) {
-      alert(err);
+      toast.error(err);
     }
+     function isImageTypeValid(image) {
+       return (
+         image.startsWith("data:image/jpeg") ||
+         image.startsWith("data:image/jpg") ||
+         image.startsWith("data:image/png")
+       );
+     }
   }
 
    
   function convertToBase64(e) {
-    var reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => {
-      setImage(reader.result);
-    };
-    reader.onerror = (error) => {
-      console.log("Error:", error);
-    };
+    const selectedFile = e.target.files[0];
+
+    // Check if a file was selected
+    if (!selectedFile) {
+      return;
+    }
+
+    // Check if the selected file type is valid (jpg, jpeg, or png)
+    if (
+      selectedFile.type === "image/jpeg" ||
+      selectedFile.type === "image/jpg" ||
+      selectedFile.type === "image/png"
+    ) {
+      // File type is valid, proceed with converting to base64
+      var reader = new FileReader();
+      reader.readAsDataURL(selectedFile);
+      reader.onload = () => {
+        setImage(reader.result);
+      };
+      reader.onerror = (error) => {
+        console.log("Error:", error);
+      };
+    } else {
+      // File type is not valid
+      toast.error("Please select a valid image file (jpg, jpeg, or png).");
+    }
   }
+
 
   const containerStyle = {
     backgroundImage: `url(${slide})`,
@@ -232,7 +293,7 @@ function UpdatePlace() {
                     </div>
                     <p className="text-gray-500 text-center text-lg mb-2"></p>
 
-                    <div className="md:col-span-2  text-xl font-semibold">
+                    <div className="md:col-span-2 text-xl font-semibold">
                       <label htmlFor="contact">Contact</label>
                       <input
                         type="text"
@@ -240,7 +301,15 @@ function UpdatePlace() {
                         id="contact"
                         className="h-10 border mt-1 rounded px-4 w-full text-gray-600 bg-gray-50 text-base"
                         value={newContact}
-                        onChange={(e) => setContact(e.target.value)}
+                        onChange={(e) => {
+                          // Use a regular expression to validate input
+                          const input = e.target.value;
+                          const isValid = /^\+?\d*$/g.test(input); // Allows positive numbers with a + symbol or empty
+
+                          if (isValid) {
+                            setContact(input);
+                          }
+                        }}
                       />
                     </div>
                     <p className="text-gray-500 text-center text-lg mb-2"></p>
