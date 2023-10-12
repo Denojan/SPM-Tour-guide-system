@@ -19,6 +19,7 @@ function UpdatePlace() {
     const [newLocation, setLocation] = useState("");
     const [newContact, setContact] = useState("");
     const [newImage, setImage] = useState("");
+    const [newPlaceType, setPlaceType] = useState("");
     const [newDescription, setDescription] = useState("");
     const [currentLocation, setCurrentLocation] = useState("");
     const [latitude, setLatitude] = useState("");
@@ -51,6 +52,7 @@ function UpdatePlace() {
     setContact(place.contact);
     setImage(place.image);
     setDescription(place.description);
+    setPlaceType(place.placeType);
   
   }, [place]);
 
@@ -68,6 +70,7 @@ function UpdatePlace() {
         newContact,
         newImage,
         newDescription,
+        newPlaceType,
       };
       
       await axios.put(
@@ -147,7 +150,7 @@ function UpdatePlace() {
         <div className="container max-w-screen-lg mx-auto">
           <div>
             <h2 className="font-bold text-5xl text-center text-black-600">
-              Capture Your Journey , Memorize Your Trip
+              Keep Your Favourite Place Details Updated
             </h2>
             <p className="text-gray-500 text-center text-2xl mb-6"></p>
             <p className="text-gray-500 text-center text-2xl mb-6">
@@ -176,19 +179,6 @@ function UpdatePlace() {
                         className="h-10 border mt-1 rounded px-4 w-full text-gray-600 bg-gray-50 text-base"
                         value={newPlaceName}
                         onChange={(e) => setPlaceName(e.target.value)}
-                      />
-                    </div>
-                    <p className="text-gray-500 text-center text-lg mb-2"></p>
-
-                    <div className="md:col-span-2 text-xl font-semibold">
-                      <label htmlFor="userId">UserID</label>
-                      <input
-                        type="text"
-                        name="userId"
-                        id="userId"
-                        className="h-10 border mt-1 rounded px-4 w-full text-gray-600 bg-gray-50 text-base"
-                        value={newUserId}
-                        onChange={(e) => setUserId(e.target.value)}
                       />
                     </div>
                     <p className="text-gray-500 text-center text-lg mb-2"></p>
@@ -229,7 +219,7 @@ function UpdatePlace() {
                           name="location"
                           id="location"
                           className="h-10 border mt-1 rounded px-4 w-full text-gray-600 bg-gray-50 text-base"
-                          value={ currentLocation || newLocation }
+                          value={currentLocation || newLocation}
                           onChange={(e) => setLocation(e.target.value)}
                         />
                         <button
@@ -278,6 +268,44 @@ function UpdatePlace() {
                         value={newDescription}
                         onChange={(e) => setDescription(e.target.value)}
                       />
+                    </div>
+                    <p className="text-gray-500 text-center text-lg mb-2"></p>
+                    <div className="md:col-span-2 text-xl font-semibold">
+                      <label htmlFor="placeType">Place Type</label>
+                      <p className="mb-3"></p>
+                      <select
+                        name="placeType"
+                        value={newPlaceType}
+                        required
+                        id="placeType"
+                        onChange={(e) => {
+                          setPlaceType(e.target.value);
+                        }}
+                        class="border py-2 px-3 text-grey-800 w-full text-gray-600 rounded-xl text-base"
+                      >
+                        <option selected disabled hidden>
+                          Choose Type
+                        </option>
+                        <option value="Natural Attractions">
+                          Natural Attractions
+                        </option>
+                        <option value="Cultural and Historical Sites">
+                          {" "}
+                          Cultural and Historical Sites
+                        </option>
+                        <option value="Adventure and Outdoor Activities">
+                          {" "}
+                          Adventure and Outdoor Activities
+                        </option>
+                        <option value="Wildlife and Safari Tours">
+                          {" "}
+                          Wildlife and Safari Tours
+                        </option>
+                        <option value="Culinary and Food Tourism">
+                          {" "}
+                          Culinary and Food Tourism
+                        </option>
+                      </select>
                     </div>
                     <p className="text-gray-500 text-center text-lg mb-2"></p>
 

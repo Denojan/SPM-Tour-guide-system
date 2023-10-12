@@ -1,4 +1,5 @@
 const favouritePlace = require("../models/FavouritePlaceModel");
+const mongoose = require("mongoose");
 
 
 const getHiddenPlaces = async (req, res) => {
@@ -14,6 +15,25 @@ const getHiddenPlaces = async (req, res) => {
       .json({ error: "place not found", errorMessage: error.message });
   }
 };
+
+const getAllVisitedPlaces = async (req, res) => {
+  const userid = req.params.userid;
+
+  try {
+    const places = await favouritePlace
+      .find({ userId: userid })
+      .select("-image");
+    // Use .select('-image') to exclude the 'image' field from the result
+
+    res.status(200).json({ places });
+  } catch (error) {
+    console.error("An error occurred:", error);
+    res
+      .status(500)
+      .json({ error: "place not found", errorMessage: error.message });
+  }
+};
+
 
 const getAnyPlace = async (req, res) => {
     const id = req.params.id;
@@ -132,8 +152,9 @@ const addFavPlace = async (req, res) => {
       contact: req.body.contact,
       image: req.body.image,
       description: req.body.description,
-      latitude:req.body.latitude,
-      longitude:req.body.longitude,
+      latitude: req.body.latitude,
+      longitude: req.body.longitude,
+      placeType: req.body.placeType,
     });
 
     // Save the new place to the database
@@ -183,6 +204,7 @@ const updatePlace = async (req, res) => {
       newContact,
       newImage,
       newDescription,
+      newPlaceType
   } = req.body;
 
   const updateData = {
@@ -194,6 +216,7 @@ const updatePlace = async (req, res) => {
     contact: newContact,
     image: newImage,
     description: newDescription,
+    placeType: newPlaceType,
   };
 
   try {
@@ -213,12 +236,120 @@ const updatePlace = async (req, res) => {
   }
 };
 
+const getAllLocationPlaces = async (req, res) => {
+  try {
+    const userId = req.params.userid;
+    const { lat, lon, radius } = req.query;
+    const radiusInMeters = parseFloat(radius);
+
+    // Convert radius to radians (MongoDB requires radians)
+    const radiusInRadians = radiusInMeters / 6371000; // Earth's radius in meters
+
+    // Perform a radius-based search using $geoWithin and $centerSphere
+    const places = await favouritePlace.find({
+      userId: userId,
+      location: {
+        $geoWithin: {
+          $centerSphere: [[parseFloat(lon), parseFloat(lat)], radiusInRadians],
+        },
+      },
+    });
+    console.log("s");
+console.log(places);
+    res.status(200).json({ places });
+  } catch (error) {
+    console.error("An error occurred:", error); // Log the error for debugging
+    res.status(500).json({ error: "Failed to fetch Place", errorMessage: error.message });
+  }
+};
+
+const getPlaceCategoryCount = async (req, res) => {
+  const userId = req.params.userId; // Assuming you're passing the user ID as a parameter
+  console.log(userId);
+
+  try {
+    const categoryCounts = await favouritePlace.aggregate([
+      {
+        $match: { userId: userId }, // Filter by user ID
+      },
+      {
+        $group: {
+          _id: {
+            $replaceOne: {
+              input: "$category",
+              find: " ", // Find a space
+              replacement: "", // Replace with no space (empty string)
+            },
+          },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const result = {};
+
+    categoryCounts.forEach((item) => {
+      // Use the category name without spaces as the key
+      result[item._id] = item.count;
+    });
+
+    console.log(result);
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("An error occurred:", error);
+    res.status(500).json({
+      error: "Failed to fetch category counts",
+      errorMessage: error.message,
+    });
+  }
+};
+
+const getPlaceTypeCount = async (req, res) => {
+  const userId = req.params.userId; // Assuming you're passing the user ID as a parameter
+  console.log(userId);
+  try {
+    const categoryCounts = await favouritePlace.aggregate([
+      {
+        $match: { userId: userId }, // Filter by user ID
+      },
+      {
+        $group: {
+          _id: "$placeType",
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const result = {};
+
+    categoryCounts.forEach((item) => {
+      result[item._id] = item.count;
+    });
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("An error occurred:", error);
+    res.status(500).json({
+      error: "Failed to fetch category counts",
+      errorMessage: error.message,
+    });
+  }
+};
+
+
+
+
 module.exports = {
   getAllPlaces,
   addFavPlace,
   deletePlace,
   updatePlace,
+  getAllLocationPlaces,
   getHiddenPlaces,
   getHiddenSpecificUser,
   getAnyPlace,
+  getPlaceCategoryCount,
+  getPlaceTypeCount,
+  getAllVisitedPlaces,
 };
