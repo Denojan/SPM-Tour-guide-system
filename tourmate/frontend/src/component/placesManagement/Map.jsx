@@ -8,7 +8,7 @@ import {
   DirectionsRenderer,
 } from "@react-google-maps/api";
 import axios from "axios";
-import map from "../assert/map1.png";
+import map from "../../assert/map1.png";
 
 const containerStyle = {
   width: "100%",

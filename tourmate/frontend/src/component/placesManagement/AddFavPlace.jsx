@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import slide from "../assert/back1.jpg";
-import slide1 from "../assert/addback.avif";
+import slide from "../../assert/back1.jpg";
+import slide1 from "../../assert/addback.avif";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AddFavPlace() {
   const [placeName, setPlaceName] = useState("");
@@ -94,7 +96,10 @@ function AddFavPlace() {
         setLatitude("");
         setLongitude("");
         setPlaceType("")
-
+         toast.success("Place SuccessFully Added", {
+           autoClose: 2000, // Display for 3 seconds
+         });
+   window.location.reload();
     } catch (error) {
      alert(error.response.data.error)
     }

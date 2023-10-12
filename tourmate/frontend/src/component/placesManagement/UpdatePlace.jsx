@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import slide from "../assert/back1.jpg";
-import slide1 from "../assert/addback.avif";
+import slide from "../../assert/back1.jpg";
+import slide1 from "../../assert/addback.avif";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

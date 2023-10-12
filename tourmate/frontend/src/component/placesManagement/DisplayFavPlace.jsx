@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import slide from "../assert/slide4.jpg";
-import slide1 from "../assert/back2.jpeg";
+import slide from "../../assert/slide4.jpg";
+import slide1 from "../../assert/back2.jpeg";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function DisplayFavPlace() {
   const [favoritePlaces, setFavoritePlaces] = useState([]);
@@ -78,22 +80,45 @@ function DisplayFavPlace() {
   // }
 
   const handleDeleteClick = async (placeId) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this place?"
-    );
-    if (!confirmed) {
-      return;
-    }
 
-    try {
-      const response = await axios.delete(
-        `http://localhost:8080/favplace/deleteplace/${placeId}`
-      );
-      console.log("Place deleted:", response.data);
-      // Refresh the list after successful deletion
-    } catch (error) {
-      console.error("Error deleting place:", error);
-    }
+     toast.warn(
+       <div>
+         <p class="text-red-700 ml-8">Do you want to delete?</p>
+         <div className="flex justify-center items-center mt-4">
+           <button
+             className="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-1 rounded mr-4"
+             onClick={() => {
+               axios
+                 .delete(
+                   `http://localhost:8080/favplace/deleteplace/${placeId}`
+                 )
+                 .then((res) => {
+                   // Handle the success response
+                   toast.success("Place Deleted successfully", {
+                     autoClose: 1000,
+                   });
+                   setTimeout(() => {
+                     window.location.reload();
+                   }, 1500);
+                 })
+                 .catch((err) => {
+                   // Handle the error
+                   toast.warning(err);
+                 });
+             }}
+           >
+             Yes
+           </button>
+           <button
+             className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold px-4 py-1 rounded"
+             onClick={() => toast.dismiss()}
+           >
+             No
+           </button>
+         </div>
+       </div>,
+       { autoClose: false }
+     );
   };
 
   const handleTextSearch = (e) => {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import slide from "../assert/slide6.jpg";
+import slide from "../../assert/slide6.jpg";
 import { Link } from 'react-router-dom';
 
 function DisplayAllHidden() {

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import axios from "../api/axios";
+import axios from "../../api/axios";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import logo from "../assert/logo.png";
-import hiddenlogo from "../assert/hiddensearch.png";
+import logo from "../../assert/logo.png";
+import hiddenlogo from "../../assert/hiddensearch.png";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function Analytics() {
   const [Places, setPlaces] = useState([]);
   const [startDate, setStartDate] = useState("");
@@ -124,6 +127,10 @@ function Analytics() {
     });
 
     doc.save("TravelReport.pdf");
+
+     toast.success("PDF Downloaded", {
+       autoClose: 2000, // Display for 3 seconds
+     });
   };
 
 

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import AddFavPlace from "./component/AddFavPlace";
-import DisplayFavPlace from "./component/DisplayFavPlace";
+import AddFavPlace from "./component/placesManagement/AddFavPlace";
+import DisplayFavPlace from "./component/placesManagement/DisplayFavPlace";
 import Experience from "./component/Experience";
 import CreateExperience from "./component/CreateExperience";
 import UpdateExperience from "./component/UpdateExperience";
@@ -8,7 +8,7 @@ import UpdateExperience from "./component/UpdateExperience";
 import SearchPlaces from "./component/SearchPlaces";
 import WishList from "./component/WishList";
 import UpdateNote from "./component/UpdateNote";
-import Map from "./component/Map";
+import Map from "./component/placesManagement/Map";
 import NavBar from "./component/NavBar";
 import Home from "./component/Home";
 import { ToastContainer } from "react-toastify";
@@ -17,16 +17,16 @@ import Register from "./component/Register";
 import Login from "./component/Login";
 
 import Footer from "./component/Footer";
-import DisplayHiddenSpecific from "./component/DisplayHiddenSpecific";
+import DisplayHiddenSpecific from "./component/placesManagement/DisplayHiddenSpecific";
 import Profile from "./component/Profile";
-import DisplayAllHidden from "./component/DisplayAllHidden";
-import UpdatePlace from "./component/UpdatePlace";
+import DisplayAllHidden from "./component/placesManagement/DisplayAllHidden";
+import UpdatePlace from "./component/placesManagement/UpdatePlace";
 
 
 import RequireAuth from "./component/RequireAuth";
 import PersistLogin from "./component/PersistLogin";
 import Unauthorized from "./component/Unauthorized";
-import Analytics from "./component/Analytics";
+import Analytics from "./component/placesManagement/Analytics";
 
 const ROLES = {
   User: 2000,
@@ -38,6 +38,7 @@ function App() {
   return (
     <Router>
       <NavBar />
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
