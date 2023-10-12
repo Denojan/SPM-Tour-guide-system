@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import cvr from "../assets/cvr.jpg";
+import cvr from "../assert/cvr.jpg";
 
 export default function Experience() {
   const [experiences, setExperience] = useState([]);

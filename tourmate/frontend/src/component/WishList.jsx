@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import bg from "../asserts/bg.jpg";
+import bg from "../assert/bg.jpg";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";

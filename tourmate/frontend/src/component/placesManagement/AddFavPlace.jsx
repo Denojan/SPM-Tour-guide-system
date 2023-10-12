@@ -327,6 +327,7 @@ function AddFavPlace() {
           </div>
         </div>
       </div>
+      
     </>
   );
 

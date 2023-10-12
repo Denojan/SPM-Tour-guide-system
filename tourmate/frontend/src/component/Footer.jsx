@@ -2,7 +2,7 @@ import React from 'react'
 
 function Footer() {
   return (
-    <footer class="bg-white dark:bg-gray-900 mt-18">
+    <footer class="bg-slate-800 dark:bg-gray-900 mt-18">
       <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div class="md:flex md:justify-between">
           <div class="mb-6 md:mb-0">
@@ -12,14 +12,14 @@ function Footer() {
                 class="h-8 mr-3"
                 alt="FlowBite Logo"
               />
-              <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+              <span class="self-center text-2xl font-semibold whitespace-nowrap text-cyan-50">
                TourMate
               </span>
             </a>
           </div>
           <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
             <div>
-              <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+              <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase text-cyan-50">
                 Resources
               </h2>
               <ul class="text-gray-500 dark:text-gray-400 font-medium">
@@ -36,7 +36,7 @@ function Footer() {
               </ul>
             </div>
             <div>
-              <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+              <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase text-cyan-50">
                 Follow us
               </h2>
               <ul class="text-gray-500 dark:text-gray-400 font-medium">
@@ -59,7 +59,7 @@ function Footer() {
               </ul>
             </div>
             <div>
-              <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+              <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase text-cyan-50">
                 Legal
               </h2>
               <ul class="text-gray-500 dark:text-gray-400 font-medium">
