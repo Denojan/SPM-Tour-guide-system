@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import bg from "../../assert/bg.jpg";
+import bg from "../assert/bg.jpg";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { CgNotes } from 'react-icons/cg';
-import jsPDF from "jspdf";
-import "jspdf-autotable";
-const moment = require("moment");
 
 function Wishlist() {
   const [placesData, setPlacesData] = useState([]);
@@ -31,25 +28,21 @@ function Wishlist() {
   }, []);
 
   const removeWishlist = (placeName) => {
-    const confirmed = window.confirm(`Are you sure you want to remove ${placeName} from your wishlist?`);
-    if (confirmed) {
-      const deleteUrl = `http://localhost:8080/wishlist/deleteWishList/${placeName}`;
-  
-      axios
-        .delete(deleteUrl)
-        .then(() => {
-          setPlacesData((prevData) =>
-            prevData.filter((place) => place.placeName !== placeName)
-          );
-          toast.success(`Removed ${placeName} from wishlist.`);
-        })
-        .catch((error) => {
-          console.error("Error removing package:", error);
-          toast.error(`Error removing ${placeName} from wishlist.`);
-        });
-    }
+    const deleteUrl = `http://localhost:8080/wishlist/deleteWishList/${placeName}`;
+
+    axios
+      .delete(deleteUrl)
+      .then(() => {
+        setPlacesData((prevData) =>
+          prevData.filter((place) => place.placeName !== placeName)
+        );
+        toast.success(`Removed ${placeName} from wishlist.`);
+      })
+      .catch((error) => {
+        console.error("Error removing package:", error);
+        toast.error(`Error removing ${placeName} from wishlist.`);
+      });
   };
-  
 
   const handleDeleteClick = async (placeId) => {
     const confirmed = window.confirm(
@@ -98,7 +91,10 @@ function Wishlist() {
     }
   };
 
- 
+
+
+
+
   const handleNoteUpdate = async () => {
     // Call the getNote function here
     await getNote();
@@ -118,77 +114,18 @@ function Wishlist() {
       console.error(error);
     }
   };
-
-
-  const generatePDFReport = () => {
-    const doc = new jsPDF();
-  
-    const currentDate = new Date();
-    const currentMonth = currentDate.toLocaleString("default", { month: "long" });
-  
-    // Set document font and color
-    doc.setFont("helvetica");
-    doc.setTextColor("#000000");
-  
-    // Add logo and company details to the top-left corner
-    doc.setFontSize(16);
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor("#000000");
-    doc.text("TourMate", 20, 20); // Adjust the coordinates as needed
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(10);
-    doc.setTextColor("#999999");
-    doc.text("Email: info@tourmate.com", 20, 35);
-    
-  
-    // Add title and date
-    doc.setFontSize(24);
-    const title = `My Planned Trip List in ${currentMonth}`;
-    doc.text(title, doc.internal.pageSize.width / 2, 70, "center");
-  
-    const data = [];
-    filteredPlaces.forEach((place) => {
-      data.push([
-        place.placeName,
-        place.placeName2,
-        place.description,
-      ]);
-    });
-  
-    const headers = [["Destination", "Place Name", "Address"]];
-  
-    doc.autoTable({
-      startY: 90, 
-      head: headers,
-      body: data,
-      theme: "grid",
-      styles: {
-        halign: "center",
-      },
-    });
-  
-    doc.save(`MyPlannedTripList_${currentMonth}.pdf`);
-  };
-  
   
 
 
   return (
     <div className="flex flex-col min-h-screen">
-      <button
-        type="button"
-        className="text-gray-900 bg-gradient-to-r from-green-200 via-green-300
-         to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none
-          focus:ring-green-100 dark:focus:ring-green-400 font-medium rounded-lg
-           text-sm px-5 py-4 text-center absolute  right-6"
-        onClick={generatePDFReport}
-        style={{ marginRight: 'auto' ,marginTop:60}}
-      >
-        Generate PDF Report
-      </button>
       <div className="flex flex-col items-center">
         <h1
-          className="text-6xl font-bold mb-4 mt-4">
+          className="text-6xl font-bold mb-4 mt-4"
+          style={{
+            fontFamily: 'Brush Script MT, cursive',
+          }}
+        >
           My Trips
         </h1>
 
@@ -202,12 +139,10 @@ function Wishlist() {
           />
         </div>
 
-
-
-        {/* <div className="main"> */}
+        <div className="main">
           <div>
 
-            {/* <div className="overflow-y-auto overflow-hidden h-[700px]" > */}
+            <div className="overflow-y-auto overflow-hidden h-[700px]" >
               {Array.from(new Set(filteredPlaces.map((place) => place.placeName)))
                 .map((placeName) => (
                   <div key={placeName}>
@@ -239,6 +174,10 @@ function Wishlist() {
                           {/* Note */}
                         </button>
                         </Link>
+
+
+
+
                       </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -291,11 +230,11 @@ function Wishlist() {
                     />
                   </div>
                 ))}
-            {/* </div> */}
+            </div>
           </div>
-        {/* </div> */}
+        </div>
       </div>
-{/* 
+
       {overLay && (
         <div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
         <div class="w-full h-full bg-black p-8 flex items-center justify-center">
@@ -320,9 +259,18 @@ function Wishlist() {
       
         </div>
       </div>
+      
+
+
       )
-      } */}
+      }
+
+
+
     </div>
+
+
+
   );
 }
 

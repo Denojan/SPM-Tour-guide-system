@@ -12,19 +12,19 @@ const wishListSchema = new Schema({
     },
     placeName2: {
       type: String,
-      required: true,
+      // required: true,
     },
     description: {
       type: String,
-      required: true,
+      // required: true,
     },
     lat: {
       type: Number,
-      required: true,
+      // required: true,
     },
     long: {
       type: Number,
-      required: true,
+      // required: true,
     },
     note:{
       type:String
